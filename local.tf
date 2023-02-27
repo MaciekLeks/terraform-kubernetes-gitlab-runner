@@ -1,4 +1,3 @@
-
 locals {
   values_file     = var.values_file != null ? file(var.values_file) : ""
   repository      = "https://charts.gitlab.io"
@@ -12,6 +11,6 @@ locals {
     azure = "azureaccess"
     gcs   = local.gcs_secret_name
   }
-  cache_secret_name = lookup(local.cache_secret_config, var.cache.type, "")
+  cache_secret_name = var.cache.secret_name != "" ? var.cache.secret_name : lookup(local.cache_secret_config, var.cache.type, "")
 }
 

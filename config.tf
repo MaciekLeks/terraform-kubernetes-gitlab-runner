@@ -29,10 +29,8 @@ locals {
   %{~if var.build_job_default_container_image != null~}
     image = "${var.build_job_default_container_image}"
   %{~endif~}
-  %{~if var.create_service_account == true~}
-    service_account = "${var.release_name}-${var.service_account}"
-  %{~else~}
-    service_account = "${var.service_account}"
+  %{~if var.job_service_account~}
+    service_account = "${var.job_service_account}"
   %{~endif~}
     image_pull_secrets = ${jsonencode(var.image_pull_secrets)}
     privileged      = ${var.build_job_privileged}

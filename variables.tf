@@ -172,7 +172,7 @@ variable "build_job_pod_annotations" {
 
 variable "build_job_secret_volumes" {
   description = "Secret volume configuration instructs Kubernetes to use a secret that is defined in Kubernetes cluster and mount it inside of the containes as defined https://docs.gitlab.com/runner/executors/kubernetes.html#secret-volumes"
-  type = object({
+  type        = object({
     name       = string
     mount_path = string
     read_only  = string
@@ -248,18 +248,19 @@ variable "runner_token" {
 
 variable "cache" {
   description = "Describes the properties of the cache. type can be either of ['local', 'gcs', 's3', 'azure'], path defines a path to append to the bucket url, shared specifies whether the cache can be shared between runners. you also specify the individual properties of the particular cache type you select. see https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnerscache-section"
-  type = object({
-    type   = string
-    path   = string
-    shared = bool
-    gcs    = map(any)
-    s3     = map(any)
-    azure  = map(any)
+  type        = object({
+    type        = string
+    path        = string
+    shared      = bool
+    gcs         = map(any)
+    s3          = map(any)
+    azure       = map(any)
+    secret_name = string
   })
 
   validation {
-    condition     = var.cache.type == "gcs" ? lookup(var.cache.gcs, "CredentialsFile", "") != "" || lookup(var.cache.gcs, "AccessID", "") != "" : true
-    error_message = "To use the gcs cache type you must set either CredentialsFile or AccessID and PrivateKey in var.cache.gcs. see https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnerscache-section for config details."
+    condition     = var.cache.type == "gcs" ? lookup(var.cache.gcs, "CredentialsFile", "") != "" || lookup(var.cache.gcs, "AccessID", "") != "" || var.cache.secret_name != "" : true
+    error_message = "To use the gcs cache type you must set either CredentialsFile or AccessID and PrivateKey or secret_name in var.cache.gcs. see https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnerscache-section for config details."
   }
   validation {
     condition     = var.cache.type == "azure" ? length(var.cache.azure) > 0 : true
@@ -276,19 +277,20 @@ variable "cache" {
   }
 
   default = {
-    type   = "local"
-    path   = ""
-    shared = false
-    gcs    = {}
-    s3     = {}
-    azure  = {}
+    type        = "local"
+    path        = ""
+    shared      = false
+    gcs         = {}
+    s3          = {}
+    azure       = {}
+    secret_name = ""
   }
 }
 
 variable "build_job_limits" {
   description = "The CPU allocation given to and the requested for build containers"
   type        = map(any)
-  default = {
+  default     = {
     cpu    = "2"
     memory = "1Gi"
   }
@@ -297,9 +299,14 @@ variable "build_job_limits" {
 variable "build_job_requests" {
   description = "The CPU allocation given to and the requested for build containers"
   type        = map(any)
-  default = {
+  default     = {
     cpu    = "1"
     memory = "512Mi"
   }
 }
 
+variable "job_service_account" {
+  description = "Service Account to be used for jobs"
+  type        = string
+  default     = null
+}
