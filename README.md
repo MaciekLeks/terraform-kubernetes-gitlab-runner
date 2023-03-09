@@ -299,6 +299,7 @@ No modules.
 | <a name="input_replicas"></a> [replicas](#input\_replicas) | The number of runner pods to create. | `number` | `1` | no |
 | <a name="input_run_untagged_jobs"></a> [run\_untagged\_jobs](#input\_run\_untagged\_jobs) | Specify if jobs without tags should be run. https://docs.gitlab.com/ce/ci/runners/#runner-is-allowed-to-run-untagged-jobs | `bool` | `false` | no |
 | <a name="input_runner_image"></a> [runner\_image](#input\_runner\_image) | The docker gitlab runner version. https://hub.docker.com/r/gitlab/gitlab-runner/tags/ | `string` | `null` | no |
+| <a name="input_runner_image_pull_policy"></a> [runner\_image\_pull\_policy](#input\_runner\_image\_pull\_policy) | Specify the job images pull policy: Never, IfNotPresent, Always. | `string` | `"IfNotPresent"` | no |
 | <a name="input_runner_locked"></a> [runner\_locked](#input\_runner\_locked) | Specify whether the runner should be locked to a specific project/group | `string` | `true` | no |
 | <a name="input_runner_name"></a> [runner\_name](#input\_runner\_name) | The runner's description. | `string` | n/a | yes |
 | <a name="input_runner_registration_token"></a> [runner\_registration\_token](#input\_runner\_registration\_token) | runner registration token | `string` | n/a | yes |
