@@ -22,10 +22,32 @@ locals {
     %{~endfor~}
 %{~endif}
   [runners.kubernetes]
-    cpu_limit = "${var.build_job_limits.cpu}"
-    cpu_request = "${var.build_job_requests.cpu}"
-    memory_limit = "${var.build_job_limits.memory}"
-    memory_request = "${var.build_job_requests.memory}"
+    cpu_limit = "${var.job_build_container_resources.limits.cpu}"
+    cpu_limit_overwrite_max_allowed = "${var.job_build_container_resources.limits.cpu_overwrite_max_allowed}"
+    cpu_request = "${var.job_build_container_resources.requests.cpu}"
+    cpu_request_overwrite_max_allowed = "${var.job_build_container_resources.requests.cpu_overwrite_max_allowed}"
+    memory_limit = "${var.job_build_container_resources.limits.memory}"
+    memory_limit_overwrite_max_allowed = "${var.job_build_container_resources.limits.memory_overwrite_max_allowed}"
+    memory_request = "${var.job_build_container_resources.requests.memory}"
+    memory_request_overwrite_max_allowed = "${var.job_build_container_resources.requests.cpu_overwrite_max_allowed}"
+
+    helper_cpu_limit = "${var.job_helper_container_resources.limits.cpu}"
+    helper_cpu_limit_overwrite_max_allowed = "${var.job_helper_container_resources.limits.cpu_overwrite_max_allowed}"
+    helper_cpu_request = "${var.job_helper_container_resources.requests.cpu}"
+    helper_cpu_request_overwrite_max_allowed = "${var.job_helper_container_resources.requests.cpu_overwrite_max_allowed}"
+    helper_memory_limit = "${var.job_helper_container_resources.limits.memory}"
+    helper_memory_limit_overwrite_max_allowed = "${var.job_helper_container_resources.limits.memory_overwrite_max_allowed}"
+    helper_memory_request = "${var.job_helper_container_resources.requests.memory}"
+    helper_memory_request_overwrite_max_allowed = "${var.job_helper_container_resources.requests.cpu_overwrite_max_allowed}"
+
+    service_cpu_limit = "${var.job_service_container_resources.limits.cpu}"
+    service_cpu_limit_overwrite_max_allowed = "${var.job_service_container_resources.limits.cpu_overwrite_max_allowed}"
+    service_cpu_request = "${var.job_service_container_resources.requests.cpu}"
+    service_cpu_request_overwrite_max_allowed = "${var.job_service_container_resources.requests.cpu_overwrite_max_allowed}"
+    service_memory_limit = "${var.job_service_container_resources.limits.memory}"
+    service_memory_limit_overwrite_max_allowed = "${var.job_service_container_resources.limits.memory_overwrite_max_allowed}"
+    service_memory_request = "${var.job_service_container_resources.requests.memory}"
+    service_memory_request_overwrite_max_allowed = "${var.job_service_container_resources.requests.cpu_overwrite_max_allowed}"
   %{~if var.build_job_default_container_image != null~}
     image = "${var.build_job_default_container_image}"
   %{~endif~}

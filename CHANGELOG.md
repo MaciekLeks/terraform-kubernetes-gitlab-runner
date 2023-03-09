@@ -6,6 +6,14 @@ All notable changes to this project will be documented in this file.
 
 - cache k8s secret given by name not inferred from provider attributes
 - support for different service accounts for the runner and his jobs
+- minimal terraform version from now is 1.4.0
+- added missing variables, e.g.
+    - termination_grace_period_seconds
+    - check_interval
+    - log_level
+    - job_build_container_resources
+    - job_helper_container_resources
+    - job_service_container_resources
 
 ## [1.5.0](https://github.com/DeimosCloud/terraform-kubernetes-gitlab-runner/compare/v1.4.0...v1.5.0) (2022-11-10)
 
