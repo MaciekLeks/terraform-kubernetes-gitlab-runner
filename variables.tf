@@ -343,7 +343,7 @@ variable "job_service_container_resources" {
 
 
 variable "job_service_account" {
-  description = "Service Account to be used for jobs"
+  description = "Service Account to be used for jobs."
   type        = string
   default     = null
 }
