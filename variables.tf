@@ -205,11 +205,11 @@ variable "image_pull_secrets" {
 
 variable "pull_policy" {
   description = "Specify the job images pull policy: never, if-not-present, always."
-  type        = string
+  type        = set(string)
   default     = null
   validation {
-    condition     = contains(["never", "if-not-present", "always"], var.pull_policy)
-    error_message = "Must be one of: \"never\", \"if-not-present\", \"always\"."
+    condition     = length(setsubtract(var.pull_policy, ["never", "if-not-present", "always"])) == 0
+    error_message = "Must be of values: \"never\", \"if-not-present\", \"always\"."
   }
 }
 
