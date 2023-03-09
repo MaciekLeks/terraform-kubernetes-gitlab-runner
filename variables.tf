@@ -310,3 +310,25 @@ variable "job_service_account" {
   type        = string
   default     = null
 }
+
+variable "termination_grace_period_seconds" {
+  description = "When stopping the runner, give it time (in seconds) to wait for its jobs to terminate."
+  type        = number
+  default     = 3600
+}
+
+variable "check_interval" {
+  description = "Defines in seconds how often to check GitLab for a new builds."
+  type        = number
+  default     = 30
+}
+
+variable "log_level" {
+  description = "Configure GitLab Runner's logging level. Available values are: debug, info, warn, error, fatal, panic."
+  type        = string
+  default     = "info"
+  validation {
+    condition     = contains(["debug", "info", "warn", "error", "fatal", "panic"], var.log_level)
+    error_message = "Must be one of: \"debug\", \"info\", \"warn\", \"error\", \"fatal\", \"panic\"."
+  }
+}

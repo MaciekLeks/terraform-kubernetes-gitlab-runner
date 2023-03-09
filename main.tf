@@ -1,4 +1,3 @@
-
 //INSTALL HELM CHART
 resource "helm_release" "gitlab_runner" {
   name             = var.release_name
@@ -11,14 +10,18 @@ resource "helm_release" "gitlab_runner" {
 
   values = [
     yamlencode({
-      image                   = var.runner_image
-      gitlabUrl               = var.gitlab_url
-      concurrent              = var.concurrent
-      runnerRegistrationToken = var.runner_registration_token
-      runnerToken             = local.runner_token
-      replicas                = local.replicas
-      unregisterRunners       = var.unregister_runners
-      secrets                 = var.additional_secrets
+      image                         = var.runner_image
+      gitlabUrl                     = var.gitlab_url
+      concurrent                    = var.concurrent
+      runnerRegistrationToken       = var.runner_registration_token
+      runnerToken                   = local.runner_token
+      replicas                      = local.replicas
+      unregisterRunners             = var.unregister_runners
+      terminationGracePeriodSeconds = var.termination_grace_period_seconds
+      checkInterval                 = var.check_interval
+      logLevel                      = var.log_level
+
+      secrets = var.additional_secrets
 
       runners = {
         name        = var.runner_name
