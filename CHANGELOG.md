@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
     - job_helper_container_resources
     - job_service_container_resources
     - shell
+    - output_limit
     - job_service_account
 
 ## [1.5.0](https://github.com/DeimosCloud/terraform-kubernetes-gitlab-runner/compare/v1.4.0...v1.5.0) (2022-11-10)

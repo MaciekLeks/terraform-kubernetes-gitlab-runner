@@ -4,6 +4,7 @@ locals {
   name = "${var.runner_name}"
   executor = "kubernetes"
   shell = "${var.shell}"
+  output_limit = ${var.output_limit}
 %{if var.cache.type == "local"~}
   cache_dir = "${var.local_cache_dir}"
 %{~else~}

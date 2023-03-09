@@ -379,3 +379,9 @@ variable "shell" {
     error_message = "Must be one of: \"bash\", \"sh\", \"powershell\", \"pwsh\"."
   }
 }
+
+variable "output_limit" {
+  description = "Maximum build log size in kilobytes. Default is 4096 (4MB)."
+  default     = null
+  type        = number
+}
