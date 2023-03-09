@@ -193,6 +193,17 @@ variable "image_pull_secrets" {
   default     = []
 }
 
+variable "pull_policy" {
+  description = "Specify the job images pull policy: never, if-not-present, always."
+  type        = string
+  default     = null
+  validation {
+    condition     = contains(["never", "if-not-present", "always"], var.pull_policy)
+    error_message = "Must be one of: \"never\", \"if-not-present\", \"always\"."
+  }
+}
+
+
 variable "manager_node_selectors" {
   description = "A map of node selectors to apply to the pods"
   default     = {}

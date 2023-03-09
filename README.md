@@ -294,6 +294,7 @@ No modules.
 | <a name="input_manager_pod_labels"></a> [manager\_pod\_labels](#input\_manager\_pod\_labels) | A map of labels to be added to each build pod created by the runner. The value of these can include environment variables for expansion. | `map(string)` | `{}` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | n/a | `string` | `"gitlab-runner"` | no |
 | <a name="input_output_limit"></a> [output\_limit](#input\_output\_limit) | Maximum build log size in kilobytes. Default is 4096 (4MB). | `number` | `null` | no |
+| <a name="input_pull_policy"></a> [pull\_policy](#input\_pull\_policy) | Specify the job images pull policy: never, if-not-present, always. | `string` | `null` | no |
 | <a name="input_release_name"></a> [release\_name](#input\_release\_name) | The helm release name | `string` | `"gitlab-runner"` | no |
 | <a name="input_replicas"></a> [replicas](#input\_replicas) | the number of manager pods to create | `number` | `1` | no |
 | <a name="input_run_untagged_jobs"></a> [run\_untagged\_jobs](#input\_run\_untagged\_jobs) | Specify if jobs without tags should be run. https://docs.gitlab.com/ce/ci/runners/#runner-is-allowed-to-run-untagged-jobs | `bool` | `false` | no |

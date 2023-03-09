@@ -59,6 +59,7 @@ locals {
     service_account = "${var.job_service_account}"
   %{~endif~}
     image_pull_secrets = ${jsonencode(var.image_pull_secrets)}
+    pull_policy = ${var.pull_policy}
     privileged      = ${var.build_job_privileged}
     [runners.kubernetes.affinity]
     [runners.kubernetes.node_selector]
