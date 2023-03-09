@@ -5,7 +5,7 @@ repos:
   - id: terraform_fmt
     args:
     - --args=-no-color
-    - --args=-diff
+    - --args=-write=true
     - --args=-write=true
   - id: terraform_validate
   - id: terraform_docs
