@@ -172,7 +172,7 @@ variable "build_job_pod_annotations" {
 
 variable "build_job_secret_volumes" {
   description = "Secret volume configuration instructs Kubernetes to use a secret that is defined in Kubernetes cluster and mount it inside of the containes as defined https://docs.gitlab.com/runner/executors/kubernetes.html#secret-volumes"
-  type        = object({
+  type = object({
     name       = string
     mount_path = string
     read_only  = string
@@ -248,7 +248,7 @@ variable "runner_token" {
 
 variable "cache" {
   description = "Describes the properties of the cache. type can be either of ['local', 'gcs', 's3', 'azure'], path defines a path to append to the bucket url, shared specifies whether the cache can be shared between runners. you also specify the individual properties of the particular cache type you select. see https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnerscache-section"
-  type        = object({
+  type = object({
     type        = string
     path        = string
     shared      = bool
@@ -289,7 +289,7 @@ variable "cache" {
 
 variable "job_build_container_resources" {
   description = "The CPU and memory resources given to build containerr."
-  type        = object({
+  type = object({
     requests = object({
       cpu                          = optional(string)
       memory                       = optional(string)
@@ -307,7 +307,7 @@ variable "job_build_container_resources" {
 
 variable "job_helper_container_resources" {
   description = "The CPU and memory resources given to helper containers."
-  type        = object({
+  type = object({
     requests = object({
       cpu                          = optional(string)
       memory                       = optional(string)
@@ -325,7 +325,7 @@ variable "job_helper_container_resources" {
 
 variable "job_service_container_resources" {
   description = "The CPU and memory resources given to service containers."
-  type        = object({
+  type = object({
     requests = object({
       cpu                          = optional(string)
       memory                       = optional(string)
