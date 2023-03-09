@@ -1,6 +1,7 @@
 locals {
   config = <<EOF
 [[runners]]
+  name = "${var.runner_name}"
   executor = "kubernetes"
   shell = "${var.shell}"
 %{if var.cache.type == "local"~}

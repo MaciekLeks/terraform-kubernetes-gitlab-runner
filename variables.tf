@@ -230,7 +230,7 @@ variable "replicas" {
 }
 
 variable "runner_name" {
-  description = "name of the runner"
+  description = "The runner's description."
   type        = string
 }
 
