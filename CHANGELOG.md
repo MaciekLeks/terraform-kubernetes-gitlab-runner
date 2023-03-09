@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
     - job_service_account
     - pull_policy
     - runner_image_pull_policy
+    - envs
 
 ## [1.5.0](https://github.com/DeimosCloud/terraform-kubernetes-gitlab-runner/compare/v1.4.0...v1.5.0) (2022-11-10)
 

@@ -12,5 +12,9 @@ locals {
     gcs   = local.gcs_secret_name
   }
   cache_secret_name = var.cache.secret_name != "" ? var.cache.secret_name : lookup(local.cache_secret_config, var.cache.type, "")
+
+  runner_envs = [for env in var.envs : { name = env.name, value = env.value } if env.runner == true]
+  job_envs    = [for env in var.envs : "${env.name}=${env.value}" if env.job == true]
+
 }
 

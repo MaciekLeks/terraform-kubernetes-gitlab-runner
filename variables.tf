@@ -406,3 +406,13 @@ variable "output_limit" {
   default     = null
   type        = number
 }
+
+variable "envs" {
+  description = "Environment variable to be set for either runner or job or both."
+  type = list(object({
+    name   = string
+    value  = string
+    job    = optional(bool)
+    runner = optional(bool)
+  }))
+}

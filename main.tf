@@ -21,6 +21,7 @@ resource "helm_release" "gitlab_runner" {
       terminationGracePeriodSeconds = var.termination_grace_period_seconds
       checkInterval                 = var.check_interval
       logLevel                      = var.log_level
+      envVars                       = local.runner_envs
 
       secrets = var.additional_secrets
 
