@@ -369,3 +369,13 @@ variable "log_level" {
     error_message = "Must be one of: \"debug\", \"info\", \"warn\", \"error\", \"fatal\", \"panic\"."
   }
 }
+
+variable "shell" {
+  description = "Name of shell to generate the script."
+  type        = string
+  default     = null
+  validation {
+    condition     = contains(["bash", "sh", "powershell", "pwsh"], var.shell)
+    error_message = "Must be one of: \"bash\", \"sh\", \"powershell\", \"pwsh\"."
+  }
+}
