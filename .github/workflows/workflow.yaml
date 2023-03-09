@@ -3,11 +3,11 @@ name: Terraform Modules CI
 on:
   push:
     branches:
-      - master
+    - master
 
   pull_request:
     branches:
-      - master
+    - master
 
 jobs:
   validate:
@@ -15,12 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Check out code
-      uses: actions/checkout@v1
+      uses: actions/checkout@v3
 
     - name: Install Terraform
       uses: hashicorp/setup-terraform@v1
       with:
-        terraform_version: 0.13.7
+        terraform_version: 1.4.0
 
     - name: Run a Terraform init
       run: terraform init
