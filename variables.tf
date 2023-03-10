@@ -310,6 +310,7 @@ variable "cache" {
 
 variable "job_build_container_resources" {
   description = "The CPU and memory resources given to build containerr."
+  default     = null
   type = object({
     requests = object({
       cpu                          = optional(string)
@@ -328,6 +329,7 @@ variable "job_build_container_resources" {
 
 variable "job_helper_container_resources" {
   description = "The CPU and memory resources given to helper containers."
+  default     = null
   type = object({
     requests = object({
       cpu                          = optional(string)
@@ -346,6 +348,7 @@ variable "job_helper_container_resources" {
 
 variable "job_service_container_resources" {
   description = "The CPU and memory resources given to service containers."
+  default     = null
   type = object({
     requests = object({
       cpu                          = optional(string)
