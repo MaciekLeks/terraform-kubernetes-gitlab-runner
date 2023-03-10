@@ -273,9 +273,9 @@ variable "cache" {
     type        = optional(string, "local")
     path        = optional(string, "")
     shared      = optional(bool)
-    gcs         = optional(map(any))
-    s3          = optional(map(any))
-    azure       = optional(map(any))
+    gcs         = optional(map(any), {})
+    s3          = optional(map(any), {})
+    azure       = optional(map(any), {})
     secret_name = optional(string)
   })
 
