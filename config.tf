@@ -38,9 +38,11 @@ locals {
     image = "${var.build_job_default_container_image}"
     %{~endif~}
 
-    %{~if var.job_service_account != null~}
-    service_account=${var.job_service_account.name}
+    %{~for key, value in var.job_identity~}
+    %{~if value != null~}
+    ${key} = "${value}"
     %{~endif~}
+    %{~endfor~}
 
     image_pull_secrets = ${jsonencode(var.image_pull_secrets)}
     pull_policy = ${jsonencode(var.pull_policy)}
