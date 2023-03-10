@@ -57,7 +57,8 @@ locals {
     image = "${var.build_job_default_container_image}"
   %{~endif~}
   %{~if var.job_service_account~}
-    service_account = "${var.job_service_account}"
+    service_account = "${var.job_service_account.name}"
+    service_account_overwrite_allowed =  "${var.job_service_account.overwrite_allowed}"
   %{~endif~}
     image_pull_secrets = ${jsonencode(var.image_pull_secrets)}
     pull_policy = ${var.pull_policy}

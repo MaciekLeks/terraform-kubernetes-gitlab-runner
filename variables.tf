@@ -362,13 +362,6 @@ variable "job_service_container_resources" {
   })
 }
 
-
-variable "job_service_account" {
-  description = "Service Account to be used for jobs."
-  type        = string
-  default     = null
-}
-
 variable "termination_grace_period_seconds" {
   description = "When stopping the runner, give it time (in seconds) to wait for its jobs to terminate."
   type        = number
@@ -415,4 +408,12 @@ variable "envs" {
     job    = optional(bool)
     runner = optional(bool)
   }))
+}
+
+variable "job_service_account" {
+  description = "Default service account job pods use to talk to Kubernetes API."
+  type = object({
+    name              = string
+    overwrite_allowed = optional(bool)
+  })
 }
