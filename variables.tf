@@ -405,6 +405,7 @@ variable "output_limit" {
 
 variable "envs" {
   description = "Environment variable to be set for either runner or job or both."
+  default     = null
   type = list(object({
     name   = string
     value  = string
