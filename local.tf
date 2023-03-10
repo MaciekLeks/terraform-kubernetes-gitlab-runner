@@ -15,6 +15,5 @@ locals {
 
   runner_envs = [for env in var.envs : { name = env.name, value = env.value } if env.runner == true]
   job_envs    = [for env in var.envs : "${env.name}=${env.value}" if env.job == true]
-
 }
 

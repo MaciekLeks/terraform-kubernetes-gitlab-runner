@@ -298,61 +298,77 @@ variable "cache" {
   }
 }
 
-variable "job_build_container_resources" {
-  description = "The CPU and memory resources given to build containerr."
-  default     = null
-  type = object({
-    requests = object({
-      cpu                          = optional(string)
-      memory                       = optional(string)
-      memory_overwrite_max_allowed = optional(string)
-      cpu_overwrite_max_allowed    = optional(string)
-    }),
-    limits = optional(object({
-      cpu                          = optional(string)
-      memory                       = optional(string)
-      cpu_overwrite_max_allowed    = optional(string)
-      memory_overwrite_max_allowed = optional(string)
-    }))
-  })
-}
+#variable "job_build_container_resources" {
+#  description = "The CPU and memory resources given to build containerr."
+#  default     = null
+#  type = object({
+#    requests = object({
+#      cpu                          = optional(string)
+#      memory                       = optional(string)
+#      memory_overwrite_max_allowed = optional(string)
+#      cpu_overwrite_max_allowed    = optional(string)
+#    }),
+#    limits = optional(object({
+#      cpu                          = optional(string)
+#      memory                       = optional(string)
+#      cpu_overwrite_max_allowed    = optional(string)
+#      memory_overwrite_max_allowed = optional(string)
+#    }))
+#  })
+#}
+#
+#variable "job_helper_container_resources" {
+#  description = "The CPU and memory resources given to helper containers."
+#  default     = null
+#  type = object({
+#    requests = object({
+#      cpu                          = optional(string)
+#      memory                       = optional(string)
+#      memory_overwrite_max_allowed = optional(string)
+#      cpu_overwrite_max_allowed    = optional(string)
+#    }),
+#    limits = optional(object({
+#      cpu                          = optional(string)
+#      memory                       = optional(string)
+#      cpu_overwrite_max_allowed    = optional(string)
+#      memory_overwrite_max_allowed = optional(string)
+#    }))
+#  })
+#}
 
-variable "job_helper_container_resources" {
-  description = "The CPU and memory resources given to helper containers."
-  default     = null
-  type = object({
-    requests = object({
-      cpu                          = optional(string)
-      memory                       = optional(string)
-      memory_overwrite_max_allowed = optional(string)
-      cpu_overwrite_max_allowed    = optional(string)
-    }),
-    limits = optional(object({
-      cpu                          = optional(string)
-      memory                       = optional(string)
-      cpu_overwrite_max_allowed    = optional(string)
-      memory_overwrite_max_allowed = optional(string)
-    }))
-  })
-}
-
-variable "job_service_container_resources" {
+variable "job_resources" {
   description = "The CPU and memory resources given to service containers."
-  default     = null
   type = object({
-    requests = object({
-      cpu                          = optional(string)
-      memory                       = optional(string)
-      memory_overwrite_max_allowed = optional(string)
-      cpu_overwrite_max_allowed    = optional(string)
-    }),
-    limits = optional(object({
-      cpu                          = optional(string)
-      memory                       = optional(string)
-      cpu_overwrite_max_allowed    = optional(string)
-      memory_overwrite_max_allowed = optional(string)
-    }))
+    //builder containers
+    cpu_limit : optional(string)
+    cpu_limit_overwrite_max_allowed : optional(string)
+    cpu_request : optional(string)
+    cpu_request_overwrite_max_allowed : optional(string)
+    memory_limit : optional(string)
+    memory_limit_overwrite_max_allowed : optional(string)
+    memory_request : optional(string)
+    memory_request_overwrite_max_allowed : optional(string)
+
+    //helper containers
+    helper_cpu_limit : optional(string)
+    helper_cpu_limit_overwrite_max_allowed : optional(string)
+    helper_cpu_request : optional(string)
+    helper_cpu_request_overwrite_max_allowed : optional(string)
+    helper_memory_limit : optional(string)
+    helper_memory_limit_overwrite_max_allowed : optional(string)
+    helper_memory_request : optional(string)
+    helper_memory_request_overwrite_max_allowed : optional(string)
+
+    service_cpu_limit : optional(string)
+    service_cpu_limit_overwrite_max_allowed : optional(string)
+    service_cpu_request : optional(string)
+    service_cpu_request_overwrite_max_allowed : optional(string)
+    service_memory_limit : optional(string)
+    service_memory_limit_overwrite_max_allowed : optional(string)
+    service_memory_request : optional(string)
+    service_memory_request_overwrite_max_allowed : optional(string)
   })
+  default = {}
 }
 
 variable "termination_grace_period_seconds" {
