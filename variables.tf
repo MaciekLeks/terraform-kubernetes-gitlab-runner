@@ -430,7 +430,7 @@ variable "job_identity" {
 }
 
 variable "metrics" {
-  description = "Configure integrated Prometheus metrics exporter"
+  description = "Configure integrated Prometheus metrics exporter."
   type = object({
     enabled : optional(bool)
     portName : optional(string, "metrics")
