@@ -23,6 +23,7 @@ resource "helm_release" "gitlab_runner" {
       logLevel                      = var.log_level
       envVars                       = local.runner_envs
       metrics                       = var.metrics
+      service                       = var.service
 
       secrets = var.additional_secrets
 

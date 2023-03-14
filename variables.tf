@@ -432,7 +432,7 @@ variable "job_identity" {
 variable "metrics" {
   description = "Configure integrated Prometheus metrics exporter."
   type = object({
-    enabled : optional(bool)
+    enabled : optional(bool, false)
     portName : optional(string, "metrics")
     port : optional(number, 9252)
     serviceMonitor : optional(object({
@@ -445,6 +445,23 @@ variable "metrics" {
       metricRelabeling : optional(list(string), [])
       relabelings : optional(list(string), [])
     }), {})
+  })
+  default = {}
+}
+
+variable "service" {
+  description = "Configure a service resource e.g., to allow scraping metrics via prometheus-operator serviceMonitor."
+  type = object({
+    enabled : optional(bool, false)
+    labels : optional(map(string), {})
+    annotations : optional(map(string), {})
+    clusterIP : optional(string, "")
+    externalIPs : optional(list(string), [])
+    loadBalancerIP : optional(string, "")
+    loadBalancerSourceRanges : optional(list(string), [])
+    type : optional(string, "ClusterIP")
+    nodePort : optional(string, "")
+    additionalPorts : optional(list(string), [])
   })
   default = {}
 }
