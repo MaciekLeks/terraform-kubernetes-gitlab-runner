@@ -510,3 +510,14 @@ variable "security_context" {
   })
   default = {}
 }
+
+variable "pod_security_context" {
+  description = "Runner POD security context."
+  type = object({
+    run_as_user : optional(number, 100)
+    run_as_group : optional(number, 65533)
+    fs_group : optional(number, 65533)
+    supplemental_groups : optional(list(number), [])
+  })
+  default = {}
+}

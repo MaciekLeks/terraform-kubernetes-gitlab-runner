@@ -49,12 +49,13 @@ resource "helm_release" "gitlab_runner" {
       #      }
 
 
-      securityContext = local.security_context
-      envVars         = local.runner_envs
-      nodeSelector    = var.manager_node_selectors
-      tolerations     = var.manager_node_tolerations
-      podLabels       = var.manager_pod_labels
-      podAnnotations  = var.manager_pod_annotations
+      securityContext    = local.security_context
+      podSecurityContext = local.pod_security_context
+      envVars            = local.runner_envs
+      nodeSelector       = var.manager_node_selectors
+      tolerations        = var.manager_node_tolerations
+      podLabels          = var.manager_pod_labels
+      podAnnotations     = var.manager_pod_annotations
     }),
     yamlencode(var.values),
     local.values_file

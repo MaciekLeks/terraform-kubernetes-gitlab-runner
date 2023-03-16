@@ -67,5 +67,10 @@ locals {
     for k, v in var.security_context :
     join("", [for i, kv in split("_", k) : i == 0 ? kv : title(kv)]) => v
   }
+
+  pod_security_context = {
+    for k, v in var.pod_security_context :
+    join("", [for i, kv in split("_", k) : i == 0 ? kv : title(kv)]) => v
+  }
 }
 
