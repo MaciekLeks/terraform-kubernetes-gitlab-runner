@@ -23,6 +23,17 @@ module "gitlab_runner" {
     service_account_annotations = {
       "iam.gke.io/gcp-service-account" = module.workload_identity["gitlab-runner"].gcp_service_account_email
     }
+    rules = [
+      {
+        resources = ["configmaps", "pods", "pods/attach", "secrets", "services"]
+        verbs: ["get", "list", "watch", "create", "patch", "update", "delete"]
+      },
+      {
+        api_groups = [""]
+        resources = ["pods/exec"]
+        verbs = ["create", "patch", "delete"]
+      }
+    ]
   }
 
   # Mount docker socket instead of using docker-in-docker
@@ -297,7 +308,7 @@ No modules.
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | n/a | `string` | `"gitlab-runner"` | no |
 | <a name="input_output_limit"></a> [output\_limit](#input\_output\_limit) | Maximum build log size in kilobytes. Default is 4096 (4MB). | `number` | `null` | no |
 | <a name="input_pull_policy"></a> [pull\_policy](#input\_pull\_policy) | Specify the job images pull policy: never, if-not-present, always. | `set(string)` | `null` | no |
-| <a name="input_rbac"></a> [rbac](#input\_rbac) | RBAC support. | <pre>object({<br>    create : optional(bool, false) #create k8s SA and apply RBAC roles<br>    resources : optional(list(string), ["pods", "pods/exec", "pods/attach", "secrets", "configmaps"])<br>    verbs : optional(list(string), ["get", "list", "watch", "create", "patch", "delete"])<br>    cluster_wide_access : optional(bool, false)<br>    service_account_name : optional(string, "default")<br>    service_account_annotations : optional(map(string), {})<br>    pod_security_policy : optional(object({<br>      enabled : optional(bool, false)<br>      resource_names : optional(list(string), [])<br>    }), { enabled : false })<br>  })</pre> | `{}` | no |
+| <a name="input_rbac"></a> [rbac](#input\_rbac) | RBAC support. | <pre>object({<br>    create : optional(bool, false) #create k8s SA and apply RBAC roles<br>    //resources : optional(list(string), ["pods", "pods/exec", "pods/attach", "secrets", "configmaps"])<br>    //verbs : optional(list(string), ["get", "list", "watch", "create", "patch", "delete"])<br>    rules : optional(list(object({<br>      resources : optional(list(string), [])<br>      api_groups : optional(list(string), [""])<br>      verbs : optional(list(string))<br>    })), [])<br><br>    cluster_wide_access : optional(bool, false)<br>    service_account_name : optional(string, "default")<br>    service_account_annotations : optional(map(string), {})<br>    pod_security_policy : optional(object({<br>      enabled : optional(bool, false)<br>      resource_names : optional(list(string), [])<br>    }), { enabled : false })<br>  })</pre> | `{}` | no |
 | <a name="input_release_name"></a> [release\_name](#input\_release\_name) | The helm release name | `string` | `"gitlab-runner"` | no |
 | <a name="input_replicas"></a> [replicas](#input\_replicas) | The number of runner pods to create. | `number` | `1` | no |
 | <a name="input_run_untagged_jobs"></a> [run\_untagged\_jobs](#input\_run\_untagged\_jobs) | Specify if jobs without tags should be run. https://docs.gitlab.com/ce/ci/runners/#runner-is-allowed-to-run-untagged-jobs | `bool` | `false` | no |

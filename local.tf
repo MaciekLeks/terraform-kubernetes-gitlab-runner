@@ -40,11 +40,18 @@ locals {
     join("", [for i, kv in split("_", k) : i == 0 ? kv : title(kv)]) => v
   }
 
+  rbac_rules = [
+    for rule in var.rbac.rules : {
+      for kr, vr in rule :
+      join("", [for i, kv in split("_", kr) : i == 0 ? kv : title(kv)]) => vr
+    }
+  ]
+
   // cond ? v1: v2 must be of the same type, to workaround this we use list: ["x", true][cond ? 0:1]
   rbac = {
     for k, v in var.rbac :
     join("", [for i, kv in split("_", k) : i == 0 ? kv : title(kv)]) =>
-    [local.rbac_pod_security_policy, v][k == "pod_security_policy" ? 0 : 1]
+    [local.rbac_pod_security_policy, local.rbac_rules, v][k == "pod_security_policy" ? 0 : k == "rules" ? 1 : 2]
   }
 }
 

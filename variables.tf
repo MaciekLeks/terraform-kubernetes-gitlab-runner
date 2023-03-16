@@ -477,8 +477,14 @@ variable "rbac" {
   description = "RBAC support."
   type = object({
     create : optional(bool, false) #create k8s SA and apply RBAC roles
-    resources : optional(list(string), ["pods", "pods/exec", "pods/attach", "secrets", "configmaps"])
-    verbs : optional(list(string), ["get", "list", "watch", "create", "patch", "delete"])
+    //resources : optional(list(string), ["pods", "pods/exec", "pods/attach", "secrets", "configmaps"])
+    //verbs : optional(list(string), ["get", "list", "watch", "create", "patch", "delete"])
+    rules : optional(list(object({
+      resources : optional(list(string), [])
+      api_groups : optional(list(string), [""])
+      verbs : optional(list(string))
+    })), [])
+
     cluster_wide_access : optional(bool, false)
     service_account_name : optional(string, "default")
     service_account_annotations : optional(map(string), {})
