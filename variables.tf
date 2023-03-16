@@ -494,5 +494,19 @@ variable "rbac" {
     }), { enabled : false })
   })
   default = {}
+}
 
+variable "security_context" {
+  description = "Runner container security context."
+  type = object({
+    allow_privilege_escalation : optional(bool, false)
+    read_only_root_filesystem : optional(bool, false)
+    run_as_non_root : optional(bool, true)
+    privileged : optional(bool, false)
+    capabilities : optional(object({
+      add : optional(list(string), [])
+      drop : optional(list(string), [])
+    }), { drop : ["ALL"] })
+  })
+  default = {}
 }

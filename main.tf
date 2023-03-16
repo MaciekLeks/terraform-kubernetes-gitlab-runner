@@ -21,9 +21,11 @@ resource "helm_release" "gitlab_runner" {
       terminationGracePeriodSeconds = var.termination_grace_period_seconds
       checkInterval                 = var.check_interval
       logLevel                      = var.log_level
-      envVars                       = local.runner_envs
-      metrics                       = local.metrics
-      service                       = local.service
+
+      rbac = local.rbac
+
+      metrics = local.metrics
+      service = local.service
 
       secrets = var.additional_secrets
 
@@ -46,12 +48,13 @@ resource "helm_release" "gitlab_runner" {
       #        clusterWideAccess         = var.service_account_clusterwide_access
       #      }
 
-      rbac = local.rbac
 
-      nodeSelector   = var.manager_node_selectors
-      tolerations    = var.manager_node_tolerations
-      podLabels      = var.manager_pod_labels
-      podAnnotations = var.manager_pod_annotations
+      securityContext = local.security_context
+      envVars         = local.runner_envs
+      nodeSelector    = var.manager_node_selectors
+      tolerations     = var.manager_node_tolerations
+      podLabels       = var.manager_pod_labels
+      podAnnotations  = var.manager_pod_annotations
     }),
     yamlencode(var.values),
     local.values_file
