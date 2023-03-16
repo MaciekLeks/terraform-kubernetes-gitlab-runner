@@ -18,8 +18,11 @@ module "gitlab_runner" {
   namespace                 = var.gitlab_runner_namespace
 
   # Pass annotations to service account. This can be for workload/pod/ identity
-  service_account_annotations = {
-    "iam.gke.io/gcp-service-account" = module.workload_identity["gitlab-runner"].gcp_service_account_email
+  rbac {
+    create = true
+    service_account_annotations = {
+      "iam.gke.io/gcp-service-account" = module.workload_identity["gitlab-runner"].gcp_service_account_email
+    }
   }
 
   # Mount docker socket instead of using docker-in-docker
@@ -278,7 +281,6 @@ No modules.
 | <a name="input_check_interval"></a> [check\_interval](#input\_check\_interval) | Defines in seconds how often to check GitLab for a new builds. | `number` | `30` | no |
 | <a name="input_concurrent"></a> [concurrent](#input\_concurrent) | Configure the maximum number of concurrent jobs | `number` | `10` | no |
 | <a name="input_create_namespace"></a> [create\_namespace](#input\_create\_namespace) | (Optional) Create the namespace if it does not yet exist. Defaults to false. | `bool` | `true` | no |
-| <a name="input_create_service_account"></a> [create\_service\_account](#input\_create\_service\_account) | If true, the service account, it's role and rolebinding will be created, else, the service account is assumed to already be created | `bool` | `true` | no |
 | <a name="input_docker_fs_group"></a> [docker\_fs\_group](#input\_docker\_fs\_group) | The fsGroup to use for docker. This is added to security context when mount\_docker\_socket is enabled | `number` | `412` | no |
 | <a name="input_envs"></a> [envs](#input\_envs) | Environment variable to be set for either runner or job or both. | <pre>list(object({<br>    name   = string<br>    value  = string<br>    job    = optional(bool)<br>    runner = optional(bool)<br>  }))</pre> | `[]` | no |
 | <a name="input_gitlab_url"></a> [gitlab\_url](#input\_gitlab\_url) | The GitLab Server URL (with protocol) that want to register the runner against | `string` | `"https://gitlab.com/"` | no |
@@ -295,6 +297,7 @@ No modules.
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | n/a | `string` | `"gitlab-runner"` | no |
 | <a name="input_output_limit"></a> [output\_limit](#input\_output\_limit) | Maximum build log size in kilobytes. Default is 4096 (4MB). | `number` | `null` | no |
 | <a name="input_pull_policy"></a> [pull\_policy](#input\_pull\_policy) | Specify the job images pull policy: never, if-not-present, always. | `set(string)` | `null` | no |
+| <a name="input_rbac"></a> [rbac](#input\_rbac) | RBAC support. | <pre>object({<br>    create : optional(bool, false) #create k8s SA and apply RBAC roles<br>    resources : optional(list(string), ["pods", "pods/exec", "pods/attach", "secrets", "configmaps"])<br>    verbs : optional(list(string), ["get", "list", "watch", "create", "patch", "delete"])<br>    cluster_wide_access : optional(bool, false)<br>    service_account_name : optional(string, "default")<br>    service_account_annotations : optional(map(string), {})<br>    pod_security_policy : optional(object({<br>      enabled : optional(bool, false)<br>      resource_names : optional(list(string), [])<br>    }), { enabled : false })<br>  })</pre> | `{}` | no |
 | <a name="input_release_name"></a> [release\_name](#input\_release\_name) | The helm release name | `string` | `"gitlab-runner"` | no |
 | <a name="input_replicas"></a> [replicas](#input\_replicas) | The number of runner pods to create. | `number` | `1` | no |
 | <a name="input_run_untagged_jobs"></a> [run\_untagged\_jobs](#input\_run\_untagged\_jobs) | Specify if jobs without tags should be run. https://docs.gitlab.com/ce/ci/runners/#runner-is-allowed-to-run-untagged-jobs | `bool` | `false` | no |
@@ -306,9 +309,6 @@ No modules.
 | <a name="input_runner_tags"></a> [runner\_tags](#input\_runner\_tags) | Specify the tags associated with the runner. Comma-separated list of tags. | `string` | n/a | yes |
 | <a name="input_runner_token"></a> [runner\_token](#input\_runner\_token) | token of already registered runer. to use this var.runner\_registration\_token must be set to null | `string` | `null` | no |
 | <a name="input_service"></a> [service](#input\_service) | Configure a service resource e.g., to allow scraping metrics via prometheus-operator serviceMonitor. | <pre>object({<br>    enabled : optional(bool, false)<br>    labels : optional(map(string), {})<br>    annotations : optional(map(string), {})<br>    cluster_ip : optional(string, "")<br>    external_ips : optional(list(string), [])<br>    load_balancer_ip : optional(string, "")<br>    load_balancer_source_ranges : optional(list(string), [])<br>    type : optional(string, "ClusterIP")<br>    node_port : optional(string, "")<br>    additional_ports : optional(list(string), [])<br>  })</pre> | `{}` | no |
-| <a name="input_service_account"></a> [service\_account](#input\_service\_account) | The name of the Service account to create | `string` | `"gitlab-runner"` | no |
-| <a name="input_service_account_annotations"></a> [service\_account\_annotations](#input\_service\_account\_annotations) | The annotations to add to the service account | `map(any)` | `{}` | no |
-| <a name="input_service_account_clusterwide_access"></a> [service\_account\_clusterwide\_access](#input\_service\_account\_clusterwide\_access) | Run the gitlab-bastion container with the ability to deploy/manage containers of jobs cluster-wide or only within namespace | `bool` | `false` | no |
 | <a name="input_shell"></a> [shell](#input\_shell) | Name of shell to generate the script. | `string` | `null` | no |
 | <a name="input_termination_grace_period_seconds"></a> [termination\_grace\_period\_seconds](#input\_termination\_grace\_period\_seconds) | When stopping the runner, give it time (in seconds) to wait for its jobs to terminate. | `number` | `3600` | no |
 | <a name="input_unregister_runners"></a> [unregister\_runners](#input\_unregister\_runners) | whether runners should be unregistered when pool is deprovisioned | `bool` | `true` | no |

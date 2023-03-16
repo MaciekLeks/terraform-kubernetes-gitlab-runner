@@ -25,23 +25,28 @@ variable "create_namespace" {
   description = "(Optional) Create the namespace if it does not yet exist. Defaults to false."
 }
 
+/* moved to rbac.service_account_name
 variable "service_account" {
   description = "The name of the Service account to create"
   type        = string
   default     = "gitlab-runner"
 }
 
+/* moved to rbac.service_account_annotations
 variable "service_account_annotations" {
   description = "The annotations to add to the service account"
   default     = {}
   type        = map(any)
 }
+*/
 
+/*moved to rbac.cluster_wide_access
 variable "service_account_clusterwide_access" {
   description = "Run the gitlab-bastion container with the ability to deploy/manage containers of jobs cluster-wide or only within namespace"
   default     = false
   type        = bool
 }
+*/
 
 variable "chart_version" {
   description = "The version of the chart"
@@ -113,11 +118,13 @@ variable "concurrent" {
   type        = number
 }
 
+/* moved to rbac.create
 variable "create_service_account" {
   default     = true
   description = "If true, the service account, it's role and rolebinding will be created, else, the service account is assumed to already be created"
   type        = bool
 }
+*/
 
 variable "local_cache_dir" {
   default     = "/tmp/gitlab/cache"
@@ -466,24 +473,20 @@ variable "service" {
   default = {}
 }
 
-#variable "rbac" {
-#  description = "RBAC support."
-#  type = object({
-#    create : optional(bool, false) #create k8s SA and apply RBAC roles
-#    resources : optional(list(string), ["pods", "pods/exec", "pods/attach", "secrets", "configmaps"])
-#    verbs: optional(list(string), ["get", "list", "watch", "create", "patch", "delete"])
-#    clusterWide
-#
-#    labels : optional(map(string), {})
-#    annotations : optional(map(string), {})
-#    clusterIP : optional(string, "")
-#    externalIPs : optional(list(string), [])
-#    loadBalancerIP : optional(string, "")
-#    loadBalancerSourceRanges : optional(list(string), [])
-#    type : optional(string, "ClusterIP")
-#    nodePort : optional(string, "")
-#    additionalPorts : optional(list(string), [])
-#  })
-#  default = {}
-#
-#}
+variable "rbac" {
+  description = "RBAC support."
+  type = object({
+    create : optional(bool, false) #create k8s SA and apply RBAC roles
+    resources : optional(list(string), ["pods", "pods/exec", "pods/attach", "secrets", "configmaps"])
+    verbs : optional(list(string), ["get", "list", "watch", "create", "patch", "delete"])
+    cluster_wide_access : optional(bool, false)
+    service_account_name : optional(string, "default")
+    service_account_annotations : optional(map(string), {})
+    pod_security_policy : optional(object({
+      enabled : optional(bool, false)
+      resource_names : optional(list(string), [])
+    }), { enabled : false })
+  })
+  default = {}
+
+}

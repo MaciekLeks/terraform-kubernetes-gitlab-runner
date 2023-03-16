@@ -39,12 +39,14 @@ resource "helm_release" "gitlab_runner" {
         }
       }
 
-      rbac = {
-        create                    = var.create_service_account
-        serviceAccountAnnotations = var.service_account_annotations
-        serviceAccountName        = var.service_account
-        clusterWideAccess         = var.service_account_clusterwide_access
-      }
+      #      rbac = {
+      #        create                    = var.create_service_account
+      #        serviceAccountAnnotations = var.service_account_annotations
+      #        serviceAccountName        = var.service_account
+      #        clusterWideAccess         = var.service_account_clusterwide_access
+      #      }
+
+      rbac = local.rbac
 
       nodeSelector   = var.manager_node_selectors
       tolerations    = var.manager_node_tolerations

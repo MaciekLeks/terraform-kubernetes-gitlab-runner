@@ -34,5 +34,17 @@ locals {
     for k, v in var.metrics :
     join("", [for i, kv in split("_", k) : i == 0 ? kv : title(kv)]) => [local.metrics_service_monitor, v][k == "service_monitor" ? 0 : 1]
   }
+
+  rbac_pod_security_policy = {
+    for k, v in var.rbac.pod_security_policy :
+    join("", [for i, kv in split("_", k) : i == 0 ? kv : title(kv)]) => v
+  }
+
+  // cond ? v1: v2 must be of the same type, to workaround this we use list: ["x", true][cond ? 0:1]
+  rbac = {
+    for k, v in var.rbac :
+    join("", [for i, kv in split("_", k) : i == 0 ? kv : title(kv)]) =>
+    [local.rbac_pod_security_policy, v][k == "pod_security_policy" ? 0 : 1]
+  }
 }
 
