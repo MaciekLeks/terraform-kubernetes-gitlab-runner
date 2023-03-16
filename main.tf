@@ -22,8 +22,8 @@ resource "helm_release" "gitlab_runner" {
       checkInterval                 = var.check_interval
       logLevel                      = var.log_level
       envVars                       = local.runner_envs
-      metrics                       = var.metrics
-      service                       = var.service
+      metrics                       = local.metrics
+      service                       = local.service
 
       secrets = var.additional_secrets
 

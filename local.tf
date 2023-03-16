@@ -15,5 +15,24 @@ locals {
 
   runner_envs = [for env in var.envs : { name = env.name, value = env.value } if env.runner == true]
   job_envs    = [for env in var.envs : "${env.name}=${env.value}" if env.job == true]
+
+  // snake to cammel case conversion
+  service = {
+    for k, v in var.service :
+    join("", [for i, kv in split("_", k) : i == 0 ? kv : kv == "ip" ? "IP" : kv == "ips" ? "IPs" : title(kv)]) => v
+  }
+
+  //snake to cammel case conversion
+  metrics_service_monitor = {
+    for k, v in var.metrics.service_monitor :
+    join("", [for i, kv in split("_", k) : i == 0 ? kv : title(kv)]) => v
+  }
+
+  // snake to cammel case conversion
+  // cond ? v1: v2 must be of the same type, to workaround this we use list: ["x", true][cond ? 0:1]
+  metrics = {
+    for k, v in var.metrics :
+    join("", [for i, kv in split("_", k) : i == 0 ? kv : title(kv)]) => [local.metrics_service_monitor, v][k == "service_monitor" ? 0 : 1]
+  }
 }
 

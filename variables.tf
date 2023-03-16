@@ -433,16 +433,16 @@ variable "metrics" {
   description = "Configure integrated Prometheus metrics exporter."
   type = object({
     enabled : optional(bool, false)
-    portName : optional(string, "metrics")
+    port_name : optional(string, "metrics")
     port : optional(number, 9252)
-    serviceMonitor : optional(object({
+    service_monitor : optional(object({
       enabled : optional(bool, false)
       labels : optional(map(string), {})
       interval : optional(string, "1m")
       scheme : optional(string, "http")
-      tlsConfig : optional(map(string), {})
+      tls_config : optional(map(string), {})
       path : optional(string, "/metrics")
-      metricRelabeling : optional(list(string), [])
+      metric_relabeling : optional(list(string), [])
       relabelings : optional(list(string), [])
     }), {})
   })
@@ -455,13 +455,35 @@ variable "service" {
     enabled : optional(bool, false)
     labels : optional(map(string), {})
     annotations : optional(map(string), {})
-    clusterIP : optional(string, "")
-    externalIPs : optional(list(string), [])
-    loadBalancerIP : optional(string, "")
-    loadBalancerSourceRanges : optional(list(string), [])
+    cluster_ip : optional(string, "")
+    external_ips : optional(list(string), [])
+    load_balancer_ip : optional(string, "")
+    load_balancer_source_ranges : optional(list(string), [])
     type : optional(string, "ClusterIP")
-    nodePort : optional(string, "")
-    additionalPorts : optional(list(string), [])
+    node_port : optional(string, "")
+    additional_ports : optional(list(string), [])
   })
   default = {}
 }
+
+#variable "rbac" {
+#  description = "RBAC support."
+#  type = object({
+#    create : optional(bool, false) #create k8s SA and apply RBAC roles
+#    resources : optional(list(string), ["pods", "pods/exec", "pods/attach", "secrets", "configmaps"])
+#    verbs: optional(list(string), ["get", "list", "watch", "create", "patch", "delete"])
+#    clusterWide
+#
+#    labels : optional(map(string), {})
+#    annotations : optional(map(string), {})
+#    clusterIP : optional(string, "")
+#    externalIPs : optional(list(string), [])
+#    loadBalancerIP : optional(string, "")
+#    loadBalancerSourceRanges : optional(list(string), [])
+#    type : optional(string, "ClusterIP")
+#    nodePort : optional(string, "")
+#    additionalPorts : optional(list(string), [])
+#  })
+#  default = {}
+#
+#}
