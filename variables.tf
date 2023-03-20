@@ -521,3 +521,18 @@ variable "pod_security_context" {
   })
   default = {}
 }
+
+variable "resources" {
+  description = "The CPU and memory resources given to the runner."
+  default     = null
+  type = object({
+    requests = optional(object({
+      cpu    = optional(string)
+      memory = optional(string)
+    })), #TODO: null is ok?
+    limits = optional(object({
+      cpu    = optional(string)
+      memory = optional(string)
+    })) #TODO: null ia ok?
+  })
+}
