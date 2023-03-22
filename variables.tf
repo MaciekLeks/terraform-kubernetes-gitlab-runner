@@ -536,3 +536,138 @@ variable "resources" {
     })) #TODO: null ia ok?
   })
 }
+
+/*
+  K8s API:https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1
+  TODO: We use case-style-transformer for this variable.
+  Please see main constraints on values https://github.com/MaciekLeks/case-style-transformer#constraints-and-todos
+*/
+variable "affinity" {
+  description = "Affinity for pod assignment."
+  default     = {}
+  type = object({
+    node_affinity : optional(object({
+      preferred_during_scheduling_ignored_during_execution : optional(list(object({
+        weight : number
+        preference : object({
+          match_expressions : optional(list(object({
+            key : string
+            operator : string
+            values : list(string)
+          })))
+          match_fields : optional(list(object({
+            key : string
+            operator : string
+            values : list(string)
+          })))
+        })
+      })))
+      required_during_scheduling_ignored_during_execution : optional(list(object({
+        node_selector_terms : object({
+          match_expressions : optional(object({
+            key : string
+            operator : string
+            values : list(string)
+          }))
+          match_fields : optional(object({
+            key : string
+            operator : string
+            values : list(string)
+          }))
+        })
+      })))
+    }), {})
+
+    pod_affinity : optional(object({
+      preferred_during_scheduling_ignored_during_execution : optional(list(object({
+        pod_affinity_term : object({
+          weight : number
+          topology_key : string
+          namespaces : optional(list(string))
+          label_selector : optional(object({
+            match_expressions : optional(list(object({
+              key : string
+              operator : string
+              values : list(string)
+            })))
+            match_labels : optional(list(string))
+          }))
+          namespace_selector : optional(object({
+            match_expressions : optional(list(object({
+              key : string
+              operator : string
+              values : list(string)
+            })))
+            match_labels : optional(list(string))
+          }))
+        })
+      })))
+      required_during_scheduling_ignored_during_execution : optional(list(object({
+        topology_key : string
+        namespaces : optional(list(string))
+        label_selector : optional(object({
+          match_expressions : optional(list(object({
+            key : string
+            operator : string
+            values : list(string)
+          })))
+          match_labels : optional(list(string))
+        }))
+        namespace_selector : optional(object({
+          match_expressions : optional(list(object({
+            key : string
+            operator : string
+            values : list(string)
+          })))
+          match_labels : optional(list(string))
+        }))
+      })))
+    }), {})
+
+    pod_anti_affinity : optional(object({
+      preferred_during_scheduling_ignored_during_execution : optional(list(object({
+        pod_affinity_term : object({
+          weight : number
+          topology_key : string
+          namespaces : optional(list(string))
+          label_selector : optional(object({
+            match_expressions : optional(list(object({
+              key : string
+              operator : string
+              values : list(string)
+            })))
+            match_labels : optional(list(string))
+          }))
+          namespace_selector : optional(object({
+            match_expressions : optional(list(object({
+              key : string
+              operator : string
+              values : list(string)
+            })))
+            match_labels : optional(list(string))
+          }))
+        })
+      })))
+      required_during_scheduling_ignored_during_execution : optional(list(object({
+        topology_key : string
+        namespaces : optional(list(string))
+        label_selector : optional(object({
+          match_expressions : optional(list(object({
+            key : string
+            operator : string
+            values : list(string)
+          })))
+          match_labels : optional(list(string))
+        }))
+        namespace_selector : optional(object({
+          match_expressions : optional(list(object({
+            key : string
+            operator : string
+            values : list(string)
+          })))
+          match_labels : optional(list(string))
+        }))
+      })))
+    }), {})
+  })
+}

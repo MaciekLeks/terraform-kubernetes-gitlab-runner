@@ -53,7 +53,11 @@ resource "helm_release" "gitlab_runner" {
       podSecurityContext = local.pod_security_context
       resources          = var.resources
 
-      envVars        = local.runner_envs
+      envVars = local.runner_envs
+
+      //affinity = local.affinity
+      affinity = module.affinity_transformer.output
+
       nodeSelector   = var.manager_node_selectors
       tolerations    = var.manager_node_tolerations
       podLabels      = var.manager_pod_labels

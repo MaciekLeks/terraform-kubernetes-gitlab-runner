@@ -1,3 +1,8 @@
+module "affinity_transformer" {
+  source = "git::https://github.com/MaciekLeks/case-style-transformer.git?ref=0.1.0"
+  input  = var.affinity
+}
+
 locals {
   values_file     = var.values_file != null ? file(var.values_file) : ""
   repository      = "https://charts.gitlab.io"
