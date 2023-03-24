@@ -48,6 +48,7 @@ locals {
     pull_policy = ${jsonencode(var.pull_policy)}
     privileged      = ${var.build_job_privileged}
     [runners.kubernetes.affinity]
+      ${var.job_affinity}
     [runners.kubernetes.node_selector]
     %{~for key, value in var.build_job_node_selectors~}
       "${key}" = "${value}"

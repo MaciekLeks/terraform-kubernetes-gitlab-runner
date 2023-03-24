@@ -671,3 +671,9 @@ variable "affinity" {
     }), {})
   })
 }
+
+//TODO: no HCL support for this variable. See: https://github.com/hashicorp/terraform/issues/28328
+variable "job_affinity" {
+  description = "Specify affinity rules that determine which node runs the job. No HCL support for this variable. Use string interpolation if needed."
+  type        = string
+}
