@@ -64,11 +64,13 @@ resource "google_container_node_pool" "gitlab_runner_pool" {
     labels = local.labels
 
     # Only pods that tolerate this taint will be scheduled here
-    taint = [{
-      key    = "node.gitlab.ci/dedicated"
-      value  = "true"
-      effect = "NO_SCHEDULE"
-    }]
+    taint = [
+      {
+        key    = "node.gitlab.ci/dedicated"
+        value  = "true"
+        effect = "NO_SCHEDULE"
+      }
+    ]
   }
 
 }
@@ -83,24 +85,27 @@ module "gitlab-runner" {
   namespace                 = var.runner_namespace
   image_pull_secrets        = ["some-pull-secret"]
   runner_name               = "my-runner"
-
+  shell                     = "bash"
   # Mount docker socket instead of using docker-in-docker
   build_job_mount_docker_socket = true
 
   # pods should be scheduled on nodes with this label
   build_job_node_selectors = local.labels
-  manager_node_selectors   = local.labels
+  node_selector            = local.labels
 
   # Pods should be able to tolerate taints
-  manager_node_tolerations = [{
-    key      = "node.gitlab.ci/dedicated"
-    operator = "Exists"
-    effect   = "NO_SCHEDULE"
-  }]
+  tolerations = [
+    {
+      key      = "node.gitlab.ci/dedicated"
+      operator = "Exists"
+      effect   = "NO_SCHEDULE"
+    }
+  ]
 
   build_job_node_tolerations = {
     "node.gitlab.ci/dedicated=true" = "NO_SCHEDULE"
   }
 
   depends_on = [google_container_node_pool.gitlab_runner_pool]
+  cache      = {}
 }

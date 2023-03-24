@@ -213,7 +213,7 @@ variable "image_pull_secrets" {
 variable "pull_policy" {
   description = "Specify the job images pull policy: never, if-not-present, always."
   type        = set(string)
-  default     = null
+  default     = ["if-not-present"]
   validation {
     condition     = length(setsubtract(var.pull_policy, ["never", "if-not-present", "always"])) == 0
     error_message = "Must be of values: \"never\", \"if-not-present\", \"always\"."
@@ -221,16 +221,20 @@ variable "pull_policy" {
 }
 
 
-variable "manager_node_selectors" {
+variable "node_selector" {
   description = "A map of node selectors to apply to the pods"
   default     = {}
   type        = map(string)
 }
 
-variable "manager_node_tolerations" {
+variable "tolerations" {
   description = "A map of node tolerations to apply to the pods as defined https://docs.gitlab.com/runner/executors/kubernetes.html#other-configtoml-settings"
-  default     = {}
-  type        = map(string)
+  default     = null
+  type = list(object({
+    key : string
+    operator : string
+    effect : string
+  }))
 }
 
 variable "manager_pod_labels" {
@@ -676,4 +680,5 @@ variable "affinity" {
 variable "job_affinity" {
   description = "Specify affinity rules that determine which node runs the job. No HCL support for this variable. Use string interpolation if needed."
   type        = string
+  default     = ""
 }

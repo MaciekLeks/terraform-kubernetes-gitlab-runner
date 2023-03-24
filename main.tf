@@ -58,8 +58,8 @@ resource "helm_release" "gitlab_runner" {
       //affinity = local.affinity
       affinity = module.affinity_transformer.output
 
-      nodeSelector   = var.manager_node_selectors
-      tolerations    = var.manager_node_tolerations
+      nodeSelector   = var.node_selector
+      tolerations    = var.tolerations
       podLabels      = var.manager_pod_labels
       podAnnotations = var.manager_pod_annotations
     }),

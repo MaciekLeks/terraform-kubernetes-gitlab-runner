@@ -19,19 +19,19 @@ module "gitlab_runner" {
 
   # Pass annotations to service account. This can be for workload/pod/ identity
   rbac {
-    create = true
+    create                      = true
     service_account_annotations = {
       "iam.gke.io/gcp-service-account" = module.workload_identity["gitlab-runner"].gcp_service_account_email
     }
     rules = [
       {
         resources = ["configmaps", "pods", "pods/attach", "secrets", "services"]
-        verbs: ["get", "list", "watch", "create", "patch", "update", "delete"]
+        verbs : ["get", "list", "watch", "create", "patch", "update", "delete"]
       },
       {
         api_groups = [""]
-        resources = ["pods/exec"]
-        verbs = ["create", "patch", "delete"]
+        resources  = ["pods/exec"]
+        verbs      = ["create", "patch", "delete"]
       }
     ]
   }
@@ -299,20 +299,19 @@ Full contributing guidelines are covered [here](CONTRIBUTING.md).
 | <a name="input_envs"></a> [envs](#input\_envs) | Environment variable to be set for either runner or job or both. | <pre>list(object({<br>    name   = string<br>    value  = string<br>    job    = optional(bool)<br>    runner = optional(bool)<br>  }))</pre> | `[]` | no |
 | <a name="input_gitlab_url"></a> [gitlab\_url](#input\_gitlab\_url) | The GitLab Server URL (with protocol) that want to register the runner against | `string` | `"https://gitlab.com/"` | no |
 | <a name="input_image_pull_secrets"></a> [image\_pull\_secrets](#input\_image\_pull\_secrets) | A array of secrets that are used to authenticate Docker image pulling. | `list(string)` | `[]` | no |
-| <a name="input_job_affinity"></a> [job\_affinity](#input\_job\_affinity) | Specify affinity rules that determine which node runs the job. No HCL support for this variable. Use string interpolation if needed. | `string` | n/a | yes |
+| <a name="input_job_affinity"></a> [job\_affinity](#input\_job\_affinity) | Specify affinity rules that determine which node runs the job. No HCL support for this variable. Use string interpolation if needed. | `string` | `""` | no |
 | <a name="input_job_identity"></a> [job\_identity](#input\_job\_identity) | Default service account job pods use to talk to Kubernetes API. | <pre>object({<br>    service_account                   = optional(string)<br>    service_account_overwrite_allowed = optional(string)<br>  })</pre> | `{}` | no |
 | <a name="input_job_resources"></a> [job\_resources](#input\_job\_resources) | The CPU and memory resources given to service containers. | <pre>object({<br>    //builder containers<br>    cpu_limit : optional(string)<br>    cpu_limit_overwrite_max_allowed : optional(string)<br>    cpu_request : optional(string)<br>    cpu_request_overwrite_max_allowed : optional(string)<br>    memory_limit : optional(string)<br>    memory_limit_overwrite_max_allowed : optional(string)<br>    memory_request : optional(string)<br>    memory_request_overwrite_max_allowed : optional(string)<br><br>    //helper containers<br>    helper_cpu_limit : optional(string)<br>    helper_cpu_limit_overwrite_max_allowed : optional(string)<br>    helper_cpu_request : optional(string)<br>    helper_cpu_request_overwrite_max_allowed : optional(string)<br>    helper_memory_limit : optional(string)<br>    helper_memory_limit_overwrite_max_allowed : optional(string)<br>    helper_memory_request : optional(string)<br>    helper_memory_request_overwrite_max_allowed : optional(string)<br><br>    service_cpu_limit : optional(string)<br>    service_cpu_limit_overwrite_max_allowed : optional(string)<br>    service_cpu_request : optional(string)<br>    service_cpu_request_overwrite_max_allowed : optional(string)<br>    service_memory_limit : optional(string)<br>    service_memory_limit_overwrite_max_allowed : optional(string)<br>    service_memory_request : optional(string)<br>    service_memory_request_overwrite_max_allowed : optional(string)<br>  })</pre> | `{}` | no |
 | <a name="input_local_cache_dir"></a> [local\_cache\_dir](#input\_local\_cache\_dir) | Path on nodes for caching | `string` | `"/tmp/gitlab/cache"` | no |
 | <a name="input_log_level"></a> [log\_level](#input\_log\_level) | Configure GitLab Runner's logging level. Available values are: debug, info, warn, error, fatal, panic. | `string` | `"info"` | no |
-| <a name="input_manager_node_selectors"></a> [manager\_node\_selectors](#input\_manager\_node\_selectors) | A map of node selectors to apply to the pods | `map(string)` | `{}` | no |
-| <a name="input_manager_node_tolerations"></a> [manager\_node\_tolerations](#input\_manager\_node\_tolerations) | A map of node tolerations to apply to the pods as defined https://docs.gitlab.com/runner/executors/kubernetes.html#other-configtoml-settings | `map(string)` | `{}` | no |
 | <a name="input_manager_pod_annotations"></a> [manager\_pod\_annotations](#input\_manager\_pod\_annotations) | A map of annotations to be added to each build pod created by the Runner. The value of these can include environment variables for expansion. Pod annotations can be overwritten in each build. | `map(string)` | `{}` | no |
 | <a name="input_manager_pod_labels"></a> [manager\_pod\_labels](#input\_manager\_pod\_labels) | A map of labels to be added to each build pod created by the runner. The value of these can include environment variables for expansion. | `map(string)` | `{}` | no |
 | <a name="input_metrics"></a> [metrics](#input\_metrics) | Configure integrated Prometheus metrics exporter. | <pre>object({<br>    enabled : optional(bool, false)<br>    port_name : optional(string, "metrics")<br>    port : optional(number, 9252)<br>    service_monitor : optional(object({<br>      enabled : optional(bool, false)<br>      labels : optional(map(string), {})<br>      interval : optional(string, "1m")<br>      scheme : optional(string, "http")<br>      tls_config : optional(map(string), {})<br>      path : optional(string, "/metrics")<br>      metric_relabeling : optional(list(string), [])<br>      relabelings : optional(list(string), [])<br>    }), {})<br>  })</pre> | `{}` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | n/a | `string` | `"gitlab-runner"` | no |
+| <a name="input_node_selector"></a> [node\_selector](#input\_node\_selector) | A map of node selectors to apply to the pods | `map(string)` | `{}` | no |
 | <a name="input_output_limit"></a> [output\_limit](#input\_output\_limit) | Maximum build log size in kilobytes. Default is 4096 (4MB). | `number` | `null` | no |
 | <a name="input_pod_security_context"></a> [pod\_security\_context](#input\_pod\_security\_context) | Runner POD security context. | <pre>object({<br>    run_as_user : optional(number, 100)<br>    run_as_group : optional(number, 65533)<br>    fs_group : optional(number, 65533)<br>    supplemental_groups : optional(list(number), [])<br>  })</pre> | `{}` | no |
-| <a name="input_pull_policy"></a> [pull\_policy](#input\_pull\_policy) | Specify the job images pull policy: never, if-not-present, always. | `set(string)` | `null` | no |
+| <a name="input_pull_policy"></a> [pull\_policy](#input\_pull\_policy) | Specify the job images pull policy: never, if-not-present, always. | `set(string)` | <pre>[<br>  "if-not-present"<br>]</pre> | no |
 | <a name="input_rbac"></a> [rbac](#input\_rbac) | RBAC support. | <pre>object({<br>    create : optional(bool, false) #create k8s SA and apply RBAC roles<br>    //resources : optional(list(string), ["pods", "pods/exec", "pods/attach", "secrets", "configmaps"])<br>    //verbs : optional(list(string), ["get", "list", "watch", "create", "patch", "delete"])<br>    rules : optional(list(object({<br>      resources : optional(list(string), [])<br>      api_groups : optional(list(string), [""])<br>      verbs : optional(list(string))<br>    })), [])<br><br>    cluster_wide_access : optional(bool, false)<br>    service_account_name : optional(string, "default")<br>    service_account_annotations : optional(map(string), {})<br>    pod_security_policy : optional(object({<br>      enabled : optional(bool, false)<br>      resource_names : optional(list(string), [])<br>    }), { enabled : false })<br>  })</pre> | `{}` | no |
 | <a name="input_release_name"></a> [release\_name](#input\_release\_name) | The helm release name | `string` | `"gitlab-runner"` | no |
 | <a name="input_replicas"></a> [replicas](#input\_replicas) | The number of runner pods to create. | `number` | `1` | no |
@@ -329,6 +328,7 @@ Full contributing guidelines are covered [here](CONTRIBUTING.md).
 | <a name="input_service"></a> [service](#input\_service) | Configure a service resource e.g., to allow scraping metrics via prometheus-operator serviceMonitor. | <pre>object({<br>    enabled : optional(bool, false)<br>    labels : optional(map(string), {})<br>    annotations : optional(map(string), {})<br>    cluster_ip : optional(string, "")<br>    external_ips : optional(list(string), [])<br>    load_balancer_ip : optional(string, "")<br>    load_balancer_source_ranges : optional(list(string), [])<br>    type : optional(string, "ClusterIP")<br>    node_port : optional(string, "")<br>    additional_ports : optional(list(string), [])<br>  })</pre> | `{}` | no |
 | <a name="input_shell"></a> [shell](#input\_shell) | Name of shell to generate the script. | `string` | `null` | no |
 | <a name="input_termination_grace_period_seconds"></a> [termination\_grace\_period\_seconds](#input\_termination\_grace\_period\_seconds) | When stopping the runner, give it time (in seconds) to wait for its jobs to terminate. | `number` | `3600` | no |
+| <a name="input_tolerations"></a> [tolerations](#input\_tolerations) | A map of node tolerations to apply to the pods as defined https://docs.gitlab.com/runner/executors/kubernetes.html#other-configtoml-settings | <pre>list(object({<br>    key : string<br>    operator : string<br>    effect : string<br>  }))</pre> | `null` | no |
 | <a name="input_unregister_runners"></a> [unregister\_runners](#input\_unregister\_runners) | whether runners should be unregistered when pool is deprovisioned | `bool` | `true` | no |
 | <a name="input_values"></a> [values](#input\_values) | Additional values to be passed to the gitlab-runner helm chart | `map(any)` | `{}` | no |
 | <a name="input_values_file"></a> [values\_file](#input\_values\_file) | Path to Values file to be passed to gitlab-runner helm chart | `string` | `null` | no |
