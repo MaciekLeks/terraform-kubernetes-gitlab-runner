@@ -252,7 +252,7 @@ Full contributing guidelines are covered [here](CONTRIBUTING.md).
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.7 |
-| <a name="requirement_helm"></a> [helm](#requirement\_helm) | >= 1.3 |
+| <a name="requirement_helm"></a> [helm](#requirement\_helm) | >= 2.9 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | >= 1.13 |
 
 ## Providers
