@@ -249,8 +249,8 @@ variable "pod_annotations" {
   type        = map(string)
 }
 
-variable "additional_secrets" {
-  description = "additional secrets to mount into the manager pods"
+variable "secrets" {
+  description = "Secrets to mount into the runner pods"
   type        = list(map(string))
   default     = []
 }

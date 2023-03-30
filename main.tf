@@ -27,7 +27,7 @@ resource "helm_release" "gitlab_runner" {
       metrics = local.metrics
       service = local.service
 
-      secrets = var.additional_secrets
+      secrets = var.secrets
 
       runners = {
         name        = var.runner_name
