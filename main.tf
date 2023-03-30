@@ -63,8 +63,8 @@ resource "helm_release" "gitlab_runner" {
       envVars     = local.runner_envs
       hostAliases = var.host_aliases
 
-      podLabels      = var.manager_pod_labels
-      podAnnotations = var.manager_pod_annotations
+      podLabels      = var.pod_labels
+      podAnnotations = var.pod_annotations
     }),
     yamlencode(var.values),
     local.values_file

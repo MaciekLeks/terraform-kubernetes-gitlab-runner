@@ -237,13 +237,13 @@ variable "tolerations" {
   }))
 }
 
-variable "manager_pod_labels" {
+variable "pod_labels" {
   description = "A map of labels to be added to each build pod created by the runner. The value of these can include environment variables for expansion. "
   default     = {}
   type        = map(string)
 }
 
-variable "manager_pod_annotations" {
+variable "pod_annotations" {
   description = "A map of annotations to be added to each build pod created by the Runner. The value of these can include environment variables for expansion. Pod annotations can be overwritten in each build. "
   default     = {}
   type        = map(string)
