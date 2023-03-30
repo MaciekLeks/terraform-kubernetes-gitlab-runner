@@ -60,11 +60,11 @@ resource "helm_release" "gitlab_runner" {
       nodeSelector = var.node_selector
       tolerations  = var.tolerations
 
-      envVars     = local.runner_envs
-      hostAliases = var.host_aliases
-
+      envVars        = local.runner_envs
+      hostAliases    = var.host_aliases
       podLabels      = var.pod_labels
       podAnnotations = var.pod_annotations
+      hpa            = module.hpa.output
     }),
     yamlencode(var.values),
     local.values_file

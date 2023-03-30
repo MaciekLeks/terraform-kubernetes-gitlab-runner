@@ -691,3 +691,27 @@ variable "host_aliases" {
   }))
   default = []
 }
+
+//TODO: add missing fields: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v2/
+variable "hpa" {
+  description = "Horizontal Pod Autoscaling with API limited to metrics specification only (api/version: autoscaling/v2)."
+  type = object({
+    min_replicas : number
+    max_replicas : number
+    metrics : list(object({
+      type : string
+      pods : object({
+        metric : object({
+          name : string
+        })
+        target : object({
+          type : string
+          average_value : optional(string)
+          average_utilization : optional(number)
+          value : optional(string)
+        })
+      })
+    }))
+  })
+  default = null
+}

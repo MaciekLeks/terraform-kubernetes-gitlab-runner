@@ -102,6 +102,25 @@ module "gitlab-runner" {
     }
   ]
 
+  #  hpa = {
+  #    min_replicas = 1
+  #    max_replicas = 2
+  #    metrics      = [
+  #      {
+  #        type = "Pods"
+  #        pods = {
+  #          metric = {
+  #            name = "prometheus.googleapis.com|foo|gauge"
+  #          }
+  #          target = {
+  #            average_value = "20"
+  #            type          = "AverageValue"
+  #          }
+  #        }
+  #      }
+  #    ]
+  #  }
+
   build_job_node_tolerations = {
     "node.gitlab.ci/dedicated=true" = "NO_SCHEDULE"
   }

@@ -266,6 +266,7 @@ Full contributing guidelines are covered [here](CONTRIBUTING.md).
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_affinity_transformer"></a> [affinity\_transformer](#module\_affinity\_transformer) | git::https://github.com/MaciekLeks/case-style-transformer.git | 0.1.0 |
+| <a name="module_hpa"></a> [hpa](#module\_hpa) | git::https://github.com/MaciekLeks/case-style-transformer.git | 0.1.0 |
 
 ## Resources
 
@@ -298,6 +299,7 @@ Full contributing guidelines are covered [here](CONTRIBUTING.md).
 | <a name="input_envs"></a> [envs](#input\_envs) | Environment variable to be set for either runner or job or both. | <pre>list(object({<br>    name   = string<br>    value  = string<br>    job    = optional(bool)<br>    runner = optional(bool)<br>  }))</pre> | `[]` | no |
 | <a name="input_gitlab_url"></a> [gitlab\_url](#input\_gitlab\_url) | The GitLab Server URL (with protocol) that want to register the runner against | `string` | `"https://gitlab.com/"` | no |
 | <a name="input_host_aliases"></a> [host\_aliases](#input\_host\_aliases) | List of hosts and IPs that will be injected into the pod's hosts file. | <pre>list(object({<br>    ip : string<br>    hostnames : list(string)<br>  }))</pre> | `[]` | no |
+| <a name="input_hpa"></a> [hpa](#input\_hpa) | Horizontal Pod Autoscaling with API limited to metrics specification only (api/version: autoscaling/v2). | <pre>object({<br>    min_replicas : number<br>    max_replicas : number<br>    metrics : list(object({<br>      type : string<br>      pods : object({<br>        metric : object({<br>          name : string<br>        })<br>        target : object({<br>          type : string<br>          average_value : optional(string)<br>          average_utilization : optional(number)<br>          value : optional(string)<br>        })<br>      })<br>    }))<br>  })</pre> | `null` | no |
 | <a name="input_image_pull_secrets"></a> [image\_pull\_secrets](#input\_image\_pull\_secrets) | A array of secrets that are used to authenticate Docker image pulling. | `list(string)` | `[]` | no |
 | <a name="input_job_affinity"></a> [job\_affinity](#input\_job\_affinity) | Specify affinity rules that determine which node runs the job. No HCL support for this variable. Use string interpolation if needed. | `string` | `""` | no |
 | <a name="input_job_identity"></a> [job\_identity](#input\_job\_identity) | Default service account job pods use to talk to Kubernetes API. | <pre>object({<br>    service_account                   = optional(string)<br>    service_account_overwrite_allowed = optional(string)<br>  })</pre> | `{}` | no |
