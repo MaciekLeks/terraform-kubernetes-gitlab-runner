@@ -27,7 +27,6 @@ resource "helm_release" "gitlab_runner" {
       metrics = local.metrics
       service = local.service
 
-      secrets = var.secrets
 
       runners = {
         name        = var.runner_name
@@ -60,11 +59,15 @@ resource "helm_release" "gitlab_runner" {
       nodeSelector = var.node_selector
       tolerations  = var.tolerations
 
-      envVars        = local.runner_envs
-      hostAliases    = var.host_aliases
-      podLabels      = var.pod_labels
-      podAnnotations = var.pod_annotations
-      hpa            = module.hpa.output
+      envVars           = local.runner_envs
+      hostAliases       = var.host_aliases
+      podLabels         = var.pod_labels
+      podAnnotations    = var.pod_annotations
+      hpa               = module.hpa.output
+      priorityClassName = var.priority_class_name
+      secrets           = var.secrets
+      configMaps        = var.config_maps
+      volumeMounts      = local.volume_mounts
     }),
     yamlencode(var.values),
     local.values_file

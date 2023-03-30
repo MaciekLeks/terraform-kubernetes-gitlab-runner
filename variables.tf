@@ -715,3 +715,29 @@ variable "hpa" {
   })
   default = null
 }
+
+variable "priority_class_name" {
+  description = "Configure priorityClassName for the runner pod. If not set, globalDefault priority class is used."
+  type        = string
+  default     = ""
+}
+
+variable "config_maps" {
+  description = "Additional map merged with the default runner ConfigMap."
+  type        = map(string)
+  default     = null
+}
+
+variable "volume_mounts" {
+  description = "Additional volumeMounts to add to the runner container."
+  type = list(object({
+    mount_path : string
+    name : string
+    mount_propagation : optional(string)
+    read_only : optional(bool, false)
+    sub_path : optional(string)
+    sub_path_expr : optional(string)
+  }))
+  default = []
+}
+
