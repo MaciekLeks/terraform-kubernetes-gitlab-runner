@@ -253,7 +253,7 @@ Full contributing guidelines are covered [here](CONTRIBUTING.md).
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.7 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | >= 2.9 |
-| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | >= 1.13 |
+| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | >= 2.19 |
 
 ## Providers
 
@@ -298,6 +298,7 @@ Full contributing guidelines are covered [here](CONTRIBUTING.md).
 | <a name="input_docker_fs_group"></a> [docker\_fs\_group](#input\_docker\_fs\_group) | The fsGroup to use for docker. This is added to security context when mount\_docker\_socket is enabled | `number` | `412` | no |
 | <a name="input_envs"></a> [envs](#input\_envs) | Environment variable to be set for either runner or job or both. | <pre>list(object({<br>    name   = string<br>    value  = string<br>    job    = optional(bool)<br>    runner = optional(bool)<br>  }))</pre> | `[]` | no |
 | <a name="input_gitlab_url"></a> [gitlab\_url](#input\_gitlab\_url) | The GitLab Server URL (with protocol) that want to register the runner against | `string` | `"https://gitlab.com/"` | no |
+| <a name="input_host_aliases"></a> [host\_aliases](#input\_host\_aliases) | List of hosts and IPs that will be injected into the pod's hosts file. | <pre>list(object({<br>    ip : string<br>    hostnames : list(string)<br>  }))</pre> | `[]` | no |
 | <a name="input_image_pull_secrets"></a> [image\_pull\_secrets](#input\_image\_pull\_secrets) | A array of secrets that are used to authenticate Docker image pulling. | `list(string)` | `[]` | no |
 | <a name="input_job_affinity"></a> [job\_affinity](#input\_job\_affinity) | Specify affinity rules that determine which node runs the job. No HCL support for this variable. Use string interpolation if needed. | `string` | `""` | no |
 | <a name="input_job_identity"></a> [job\_identity](#input\_job\_identity) | Default service account job pods use to talk to Kubernetes API. | <pre>object({<br>    service_account                   = optional(string)<br>    service_account_overwrite_allowed = optional(string)<br>  })</pre> | `{}` | no |

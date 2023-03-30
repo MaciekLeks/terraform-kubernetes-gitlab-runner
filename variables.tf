@@ -682,3 +682,12 @@ variable "job_affinity" {
   type        = string
   default     = ""
 }
+
+variable "host_aliases" {
+  description = "List of hosts and IPs that will be injected into the pod's hosts file."
+  type = list(object({
+    ip : string
+    hostnames : list(string)
+  }))
+  default = []
+}
