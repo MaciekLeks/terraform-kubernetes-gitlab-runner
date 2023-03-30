@@ -68,6 +68,7 @@ resource "helm_release" "gitlab_runner" {
       secrets           = var.secrets
       configMaps        = var.config_maps
       volumeMounts      = local.volume_mounts
+      volumes           = var.volumes
     }),
     yamlencode(var.values),
     local.values_file

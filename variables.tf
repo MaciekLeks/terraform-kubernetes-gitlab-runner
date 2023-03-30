@@ -741,3 +741,9 @@ variable "volume_mounts" {
   default = []
 }
 
+//TODO: Add static typing
+variable "volumes" {
+  description = "Additional volumes to add to the runner pod. No HCL support here yet. Please use camel case for this variable."
+  type        = list(any)
+  default     = []
+}

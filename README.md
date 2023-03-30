@@ -338,6 +338,7 @@ Full contributing guidelines are covered [here](CONTRIBUTING.md).
 | <a name="input_values"></a> [values](#input\_values) | Additional values to be passed to the gitlab-runner helm chart | `map(any)` | `{}` | no |
 | <a name="input_values_file"></a> [values\_file](#input\_values\_file) | Path to Values file to be passed to gitlab-runner helm chart | `string` | `null` | no |
 | <a name="input_volume_mounts"></a> [volume\_mounts](#input\_volume\_mounts) | Additional volumeMounts to add to the runner container. | <pre>list(object({<br>    mount_path : string<br>    name : string<br>    mount_propagation : optional(string)<br>    read_only : optional(bool, false)<br>    sub_path : optional(string)<br>    sub_path_expr : optional(string)<br>  }))</pre> | `[]` | no |
+| <a name="input_volumes"></a> [volumes](#input\_volumes) | Additional volumes to add to the runner pod. No HCL support here yet. Please use camel case for this variable. | `list(any)` | `[]` | no |
 
 ## Outputs
 

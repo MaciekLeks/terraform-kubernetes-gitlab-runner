@@ -83,7 +83,6 @@ locals {
     join("", [for i, kv in split("_", k) : i == 0 ? kv : title(kv)]) => v
   }
 
-
   volume_mounts = [
     for vm in var.volume_mounts : {
       for k, v in vm : join("", [for i, kv in split("_", k) : i == 0 ? kv : title(kv)]) => v
