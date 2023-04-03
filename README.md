@@ -265,8 +265,8 @@ Full contributing guidelines are covered [here](CONTRIBUTING.md).
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_affinity_transformer"></a> [affinity\_transformer](#module\_affinity\_transformer) | git::https://github.com/MaciekLeks/case-style-transformer.git | 0.1.0 |
-| <a name="module_hpa"></a> [hpa](#module\_hpa) | git::https://github.com/MaciekLeks/case-style-transformer.git | 0.1.0 |
+| <a name="module_affinity_transformer"></a> [affinity\_transformer](#module\_affinity\_transformer) | git::https://github.com/MaciekLeks/case-style-transformer.git | 0.1.1 |
+| <a name="module_hpa"></a> [hpa](#module\_hpa) | git::https://github.com/MaciekLeks/case-style-transformer.git | 0.1.1 |
 
 ## Resources
 
