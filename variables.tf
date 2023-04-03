@@ -9,6 +9,7 @@ variable "runner_image" {
   type        = string
 }
 
+
 variable "runner_image_pull_policy" {
   description = "Specify the job images pull policy: Never, IfNotPresent, Always."
   type        = string
@@ -91,7 +92,13 @@ variable "atomic" {
 variable "build_job_default_container_image" {
   description = "Default container image to use for builds when none is specified"
   type        = string
-  default     = "ubuntu:18.04"
+  default     = "ubuntu:20.04"
+}
+
+variable "helper_job_container_image" {
+  description = "Helper container image."
+  type        = string
+  default     = null
 }
 
 variable "values_file" {

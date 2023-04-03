@@ -38,6 +38,10 @@ locals {
     image = "${var.build_job_default_container_image}"
     %{~endif~}
 
+    %{~if var.helper_job_container_image != null~}
+    helper_image = "${var.helper_job_container_image}"
+    %{~endif~}
+
     %{~for key, value in var.job_identity~}
     %{~if value != null~}
     ${key} = "${value}"
