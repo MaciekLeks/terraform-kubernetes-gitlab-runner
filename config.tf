@@ -19,8 +19,8 @@ locals {
       "${key}" = "${value}"
     %{~endfor~}
     [runners.cache.gcs]
-    %{~for key, value in var.cache.gcs~}
-      "${key}" = "${value}"
+    %{~for key, value in local.cache_gcs~}
+      ${key} = "${value}"
     %{~endfor~}
     [runners.cache.azure]
     %{~for key, value in var.cache.azure~}

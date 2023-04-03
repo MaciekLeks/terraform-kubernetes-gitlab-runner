@@ -81,5 +81,9 @@ locals {
       for k, v in vm : join("", [for i, kv in split("_", k) : i == 0 ? kv : title(kv)]) => v
     }
   ]
+
+  cache_gcs = {
+    for k, v in var.cache.gcs : join("", [for i, kv in split("_", k) : title(kv)]) => v if v != null
+  }
 }
 
