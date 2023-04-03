@@ -281,24 +281,31 @@ variable "runner_token" {
 variable "cache" {
   description = "Describes the properties of the cache. type can be either of ['local', 'gcs', 's3', 'azure'], path defines a path to append to the bucket url, shared specifies whether the cache can be shared between runners. you also specify the individual properties of the particular cache type you select. see https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnerscache-section"
   type = object({
-    type        = optional(string, "local")
-    path        = optional(string, "")
-    shared      = optional(bool)
-    gcs         = optional(map(any), {})
-    s3          = optional(map(any), {})
-    azure       = optional(map(any), {})
+    type   = optional(string, "local")
+    path   = optional(string, "")
+    shared = optional(bool)
+    gcs = optional(object({
+      credentials_file : optional(string)
+      access_id : optional(string)
+      private_key : optional(string)
+      bucket_name : string
+    }))
+    s3          = optional(map(any), {}) //TODO: add static typing as for gcs
+    azure       = optional(map(any), {}) //TODO: add static typing as for gcs
     secret_name = optional(string)
   })
 
   validation {
-    condition     = var.cache.type == "gcs" ? lookup(var.cache.gcs, "CredentialsFile", "") != "" || lookup(var.cache.gcs, "AccessID", "") != "" || var.cache.secret_name != null : true
-    error_message = "To use the gcs cache type you must set either CredentialsFile or AccessID and PrivateKey or secret_name in var.cache.gcs. see https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnerscache-section for config details."
+    condition     = var.cache.type == "gcs" && var.cache.gcs != null
+    error_message = "To use the gcs cache type you must configure at least gcs.bucket_name"
   }
   validation {
+    //TODO: after adding static typing change it accordingly
     condition     = var.cache.type == "azure" ? length(var.cache.azure) > 0 : true
     error_message = "To use the azure cache type you must set var.cache.azure. see https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnerscache-section for config details."
   }
   validation {
+    //TODO: after adding static typing change it accordingly
     condition     = var.cache.type == "s3" ? length(var.cache.s3) > 0 : true
     error_message = "To use the s3 cache type you must set var.cache.s3 see https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnerscache-section for config details."
   }
@@ -307,6 +314,7 @@ variable "cache" {
     condition     = var.cache.type == "gcs" || var.cache.type == "s3" || var.cache.type == "local" || var.cache.type == "azure" ? true : false
     error_message = "Cache type must be one of 's3', 'gcs', 'azure', or 'local'."
   }
+  default = null
 }
 
 #variable "job_build_container_resources" {

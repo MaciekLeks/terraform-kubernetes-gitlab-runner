@@ -36,7 +36,7 @@ resource "helm_release" "gitlab_runner" {
         config      = local.config
 
         cache = {
-          secretName = local.cache_secret_name
+          secretName = var.cache != null ? var.cache.secret_name : null
         }
       }
 
