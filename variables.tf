@@ -3,19 +3,19 @@ variable "namespace" {
   default = "gitlab-runner"
 }
 
-variable "runner_image" {
+variable "image" {
   description = "The docker gitlab runner version. https://hub.docker.com/r/gitlab/gitlab-runner/tags/"
   default     = null
   type        = string
 }
 
 
-variable "runner_image_pull_policy" {
+variable "image_pull_policy" {
   description = "Specify the job images pull policy: Never, IfNotPresent, Always."
   type        = string
   default     = "IfNotPresent"
   validation {
-    condition     = contains(["Never", "IfNotPresent", "Always"], var.runner_image_pull_policy)
+    condition     = contains(["Never", "IfNotPresent", "Always"], var.image_pull_policy)
     error_message = "Must be one of: \"Never\", \"IfNotPresent\", \"Always\"."
   }
 }

@@ -10,8 +10,8 @@ resource "helm_release" "gitlab_runner" {
 
   values = [
     yamlencode({
-      image                         = var.runner_image
-      imagePullPolicy               = var.runner_image_pull_policy
+      image                         = var.image
+      imagePullPolicy               = var.image_pull_policy
       gitlabUrl                     = var.gitlab_url
       concurrent                    = var.concurrent
       runnerRegistrationToken       = var.runner_registration_token
