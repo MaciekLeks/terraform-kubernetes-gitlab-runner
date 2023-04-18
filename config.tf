@@ -68,11 +68,11 @@ locals {
       "${key}" = "${value}"
     %{~endfor~}
     [runners.kubernetes.pod_labels]
-    %{~for key, value in var.build_job_pod_labels~}
+    %{~for key, value in var.job_pod_labels~}
       "${key}" = "${value}"
     %{~endfor~}
     [runners.kubernetes.pod_annotations]
-    %{~for key, value in var.build_job_pod_annotations~}
+    %{~for key, value in var.job_pod_annotations~}
       "${key}" = "${value}"
     %{~endfor~}
     [runners.kubernetes.pod_security_context]

@@ -190,13 +190,13 @@ variable "build_job_node_tolerations" {
   type        = map(string)
 }
 
-variable "build_job_pod_labels" {
+variable "job_pod_labels" {
   description = "A map of labels to be added to each build pod created by the runner. The value of these can include environment variables for expansion. "
   default     = {}
   type        = map(string)
 }
 
-variable "build_job_pod_annotations" {
+variable "job_pod_annotations" {
   description = "A map of annotations to be added to each build pod created by the Runner. The value of these can include environment variables for expansion. Pod annotations can be overwritten in each build. "
   default     = {}
   type        = map(string)
