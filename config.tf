@@ -51,6 +51,12 @@ locals {
     image_pull_secrets = ${jsonencode(var.image_pull_secrets)}
     pull_policy = ${jsonencode(var.pull_policy)}
     privileged      = ${var.build_job_privileged}
+
+    %{~if var.poll != null~}
+    poll_interval = ${var.poll.interval}
+    poll_timeout = ${var.poll.timeout}
+    %{~endif~}
+
     [runners.kubernetes.affinity]
       ${var.job_affinity}
     [runners.kubernetes.node_selector]

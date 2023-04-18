@@ -762,3 +762,12 @@ variable "volumes" {
   type        = list(any)
   default     = []
 }
+
+variable "poll" {
+  description = "Polling options for the runner to poll it's job pods."
+  type = object({
+    interval : optional(number, 3)
+    timeout : optional(number, 180)
+  })
+  default = {}
+}
