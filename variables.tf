@@ -146,12 +146,12 @@ variable "build_job_hostmounts" {
 }
 
 variable "build_job_empty_dirs" {
-  description = "A map of maps of name:{name, mount_path, medium} for which each named value will result in a named empty_dir mounted with."
+  description = "A map of name:{mount_path, medium} for which each named value will result in a named empty_dir mounted with."
   default     = {}
-  type = map(map(object({
+  type = map(object({
     mount_path : string
     medium : string
-  })))
+  }))
 }
 
 variable "build_job_mount_docker_socket" {
