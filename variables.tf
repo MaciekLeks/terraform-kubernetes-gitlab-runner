@@ -178,13 +178,13 @@ variable "docker_fs_group" {
   type        = number
 }
 
-variable "build_job_node_selectors" {
+variable "job_pod_node_selectors" {
   description = "A map of node selectors to apply to the pods"
   default     = {}
   type        = map(string)
 }
 
-variable "build_job_node_tolerations" {
+variable "job_pod_node_tolerations" {
   description = "A map of node tolerations to apply to the pods as defined https://docs.gitlab.com/runner/executors/kubernetes.html#other-configtoml-settings"
   default     = {}
   type        = map(string)

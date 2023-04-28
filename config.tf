@@ -60,11 +60,11 @@ locals {
     [runners.kubernetes.affinity]
       ${var.job_affinity}
     [runners.kubernetes.node_selector]
-    %{~for key, value in var.build_job_node_selectors~}
+    %{~for key, value in var.job_pod_node_selectors~}
       "${key}" = "${value}"
     %{~endfor~}
     [runners.kubernetes.node_tolerations]
-    %{~for key, value in var.build_job_node_tolerations~}
+    %{~for key, value in var.job_pod_node_tolerations~}
       "${key}" = "${value}"
     %{~endfor~}
     [runners.kubernetes.pod_labels]
