@@ -73,7 +73,7 @@ locals {
     %{~endfor~}
     [runners.kubernetes.pod_annotations]
     %{~for key, value in var.job_pod_annotations~}
-      "${key}" = "${value}"
+      "${key}" = '${value}'
     %{~endfor~}
     [runners.kubernetes.pod_security_context]
     %{~if var.build_job_mount_docker_socket~}
