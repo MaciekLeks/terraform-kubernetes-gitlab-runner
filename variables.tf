@@ -4,7 +4,7 @@ variable "namespace" {
 }
 
 variable "image" {
-  description = "The docker gitlab runner image. https://hub.docker.com/r/gitlab/gitlab-runner/tags/"
+  description = "The docker gitlab runner image."
   default     = {}
   type = object({
     registry : optional(string, "registry.gitlab.com")

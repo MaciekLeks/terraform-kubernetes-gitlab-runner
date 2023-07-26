@@ -1,7 +1,8 @@
-# Info
+# History
 
-terraform-kubernetes-gitlab-runner is a permanent fork
-of [terraform-kubernetes-gitlab-runner](https://github.com/DeimosCloud/terraform-kubernetes-gitlab-runner).
+terraform-kubernetes-gitlab-runner is originated
+on [terraform-kubernetes-gitlab-runner](https://github.com/DeimosCloud/terraform-kubernetes-gitlab-runner),
+but the forked repository had diverged significantly from its parent, so I've decided to detach it.
 
 # Terraform Kubernetes Gitlab-Runner Module
 
@@ -304,7 +305,7 @@ Full contributing guidelines are covered [here](CONTRIBUTING.md).
 | <a name="input_helper_job_container_image"></a> [helper\_job\_container\_image](#input\_helper\_job\_container\_image) | Helper container image. | `string` | `null` | no |
 | <a name="input_host_aliases"></a> [host\_aliases](#input\_host\_aliases) | List of hosts and IPs that will be injected into the pod's hosts file. | <pre>list(object({<br>    ip : string<br>    hostnames : list(string)<br>  }))</pre> | `[]` | no |
 | <a name="input_hpa"></a> [hpa](#input\_hpa) | Horizontal Pod Autoscaling with API limited to metrics specification only (api/version: autoscaling/v2). | <pre>object({<br>    min_replicas : number<br>    max_replicas : number<br>    metrics : list(object({<br>      type : string<br>      pods : object({<br>        metric : object({<br>          name : string<br>        })<br>        target : object({<br>          type : string<br>          average_value : optional(string)<br>          average_utilization : optional(number)<br>          value : optional(string)<br>        })<br>      })<br>    }))<br>  })</pre> | `null` | no |
-| <a name="input_image"></a> [image](#input\_image) | The docker gitlab runner image. https://hub.docker.com/r/gitlab/gitlab-runner/tags/ | <pre>object({<br>    registry : optional(string, "registry.gitlab.com")<br>    image : optional(string, "gitlab/gitlab-runner")<br>    tag : optional(string)<br>  })</pre> | `{}` | no |
+| <a name="input_image"></a> [image](#input\_image) | The docker gitlab runner image. | <pre>object({<br>    registry : optional(string, "registry.gitlab.com")<br>    image : optional(string, "gitlab/gitlab-runner")<br>    tag : optional(string)<br>  })</pre> | `{}` | no |
 | <a name="input_image_pull_policy"></a> [image\_pull\_policy](#input\_image\_pull\_policy) | Specify the job images pull policy: Never, IfNotPresent, Always. | `string` | `"IfNotPresent"` | no |
 | <a name="input_image_pull_secrets"></a> [image\_pull\_secrets](#input\_image\_pull\_secrets) | A array of secrets that are used to authenticate Docker image pulling. | `list(string)` | `[]` | no |
 | <a name="input_job_affinity"></a> [job\_affinity](#input\_job\_affinity) | Specify affinity rules that determine which node runs the job. No HCL support for this variable. Use string interpolation if needed. | `string` | `""` | no |
