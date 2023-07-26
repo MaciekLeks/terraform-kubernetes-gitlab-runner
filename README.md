@@ -127,12 +127,6 @@ module "gitlab_runner" {
       runner = true #runner also sees that var
     },
     {
-      name   = "https_proxy"
-      value  = "http://proxy.net.int:3128"
-      job    = true
-      runner = true
-    },
-    {
       name   = "FOO"
       value  = "bar"
       job    = true
