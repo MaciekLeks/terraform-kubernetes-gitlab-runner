@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.10.0](https://github.com/MaciekLeks/terraform-kubernetes-gitlab-runner/compare/v0.9.0...v0.10.0) (2023-07-26)
+
+
+### Features
+
+* relase test ([e079f0b](https://github.com/MaciekLeks/terraform-kubernetes-gitlab-runner/commit/e079f0bef483e188adc47df2bede51ce733246e0))
+
 ## [1.5.0](https://github.com/DeimosCloud/terraform-kubernetes-gitlab-runner/compare/v1.4.0...v1.5.0) (2022-11-10)
 
 ### Features
