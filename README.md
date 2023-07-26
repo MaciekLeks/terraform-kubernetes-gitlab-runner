@@ -27,9 +27,22 @@ module "gitlab_runner" {
   runner_image              = var.runner_image
   namespace                 = var.gitlab_runner_namespace
 
-  # Pass annotations to service account. This can be for workload/pod/ identity
+  # change runner's default image registry settings
+  image = {
+    registry   = "nexus.my.domain"
+    repository = "gitlab/gitlab-runner"
+    tag        = "alpine3.18"
+  }
+
+  // set default shell
+  shell = "bash"
+
+  // increase log limit for verbose jobs
+  output_limit = 26000
+
   rbac {
     create                      = true
+    # Pass annotations to service account, e.g. in this case GCP Workload Identity needs it
     service_account_annotations = {
       "iam.gke.io/gcp-service-account" = module.workload_identity["gitlab-runner"].gcp_service_account_email
     }
@@ -46,10 +59,86 @@ module "gitlab_runner" {
     ]
   }
 
-  # Mount docker socket instead of using docker-in-docker
-  build_job_mount_docker_socket = true
+  // job pods will be scheduled with these resource requests/limits 
+  job_resources = {
+    cpu_request                          = "100m"
+    cpu_request_overwrite_max_allowed    = "2000m"
+    memory_request                       = "1Gi"
+    memory_request_overwrite_max_allowed = "2Gi"
 
-  depends_on = [module.gke_cluster, module.gke_node_pool]
+    cpu_limit_overwrite_max_allowed    = "2000m"
+    memory_limit_overwrite_max_allowed = "2Gi"
+
+    helper_cpu_request    = "200m"
+    helper_memory_request = "256Mi"
+
+    service_cpu_request    = "1000m"
+    service_memory_request = "1Gi"
+    service_cpu_limit      = "3000m"
+    service_memory_limit   = "2Gi"
+  }
+
+  # runner resources requests/limits	
+  resources = {
+    requests = {
+      memory = "128Mi"
+      cpu    = "100m"
+    }
+  }
+
+  # enable prometheus metrics
+  metrics = {
+    enabled = true
+  }
+
+  # add this labels to every job's pod
+  job_pod_labels = {
+    jobId        = "$CI_JOB_ID"
+    pipelineId   = "$CI_PIPELINE_ID"
+    gitUserLogin = "$GITLAB_USER_LOGIN"
+    project      = "$CI_PROJECT_NAME"
+  }
+
+  # cache settings
+  cache = {
+    type        = "gcs"
+    path        = "cache"
+    shared      = true
+    secret_name = kubernetes_secret.gcscred.metadata[0].name
+    gcs         = {
+      bucket_name = module.gcs.bucket_name
+    }
+  }
+
+  # docker-in-docker cert settings
+  build_job_empty_dirs = {
+    "docker-certs" = {
+      mount_path = "/certs/client"
+      medium     = "Memory"
+    }
+  }
+
+  # simple runner and job environment variables setting, e.g. HTTPS_PROXY
+  envs = [
+    {
+      name   = "HTTPS_PROXY"
+      value  = "http://proxy.net.int:3128"
+      job    = true #job container sees that variable
+      runner = true #runner also sees that var
+    },
+    {
+      name   = "https_proxy"
+      value  = "http://proxy.net.int:3128"
+      job    = true
+      runner = true
+    },
+    {
+      name   = "FOO"
+      value  = "bar"
+      job    = true
+      runner = false #only job needs this value
+    }
+  ]
 }
 ```
 
@@ -221,14 +310,14 @@ This can be done with:
 
 ```hcl
 module "gitlab_runner" {
-  ...
-build_job_hostmounts = {
-  shared_certs = {
-    host_path = "/certs/client",
-    read_only = true
+  #...
+  build_job_empty_dirs = {
+    "docker-certs" = {
+      mount_path = "/certs/client"
+      medium     = "Memory"
+    }
   }
-}
-...
+  #...
 }
 ```
 
@@ -237,18 +326,21 @@ This causes the config.toml to create a host_path section:
 ```toml
     [runners.kubernetes.volumes]
       ...
-      [[runners.kubernetes.volumes.host_path]]
-        name = "shared_certs"
-        mount_path = "/certs/client"
-        read_only = true
-        host_path = "/certs/client"
+        [[runners.kubernetes.volumes.empty_dir]]
+        name = "docker-certs
+        mount_path = "/certs/client
+        medium = "Memory"
       ...
 ```
 
-In your build, you may need to define the enviroment variable `DOCKER_TLS_CERTDIR=/certs/client` as well to ensure the
-docker CLI knows where to find them. The docker CLI should use the TLS tcp/2376 port if it sees a DOCKER_TLS_CERTDIR,
-but if not, `--host` argument or `DOCKER_HOST=tcp://hostname:2376/` are some options to steer it to the correct
-port/protocol.
+In your build, you may need to define the enviroment variables:
+
+- `DOCKER_TLS_CERTDIR: /certs`,
+- `DOCKER_TLS_VERIFY: 1`
+- `DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"`
+  The docker CLI should use the TLS tcp/2376 port if it sees a `DOCKER_TLS_CERTDIR`,
+  but if not, `--host` argument or `DOCKER_HOST=tcp://hostname:2376/` are some options to steer it to the correct
+  port/protocol.
 
 ## Contributing
 
