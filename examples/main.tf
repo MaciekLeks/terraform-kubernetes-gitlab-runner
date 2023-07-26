@@ -68,7 +68,7 @@ resource "google_container_node_pool" "gitlab_runner_pool" {
       {
         key    = "node.gitlab.ci/dedicated"
         value  = "true"
-        effect = "NO_SCHEDULE"
+        effect = "NoSchedule"
       }
     ]
   }
@@ -86,45 +86,25 @@ module "gitlab-runner" {
   image_pull_secrets        = ["some-pull-secret"]
   runner_name               = "my-runner"
   shell                     = "bash"
-  # Mount docker socket instead of using docker-in-docker
-  build_job_mount_docker_socket = true
 
-  # pods should be scheduled on nodes with this label
-  build_job_node_selectors = local.labels
-  node_selector            = local.labels
-
-  # Pods should be able to tolerate taints
+  # runner should tolerate the taint
   tolerations = [
     {
       key      = "node.gitlab.ci/dedicated"
       operator = "Exists"
-      effect   = "NO_SCHEDULE"
+      effect   = "NoSchedule"
     }
   ]
 
-  #  hpa = {
-  #    min_replicas = 1
-  #    max_replicas = 2
-  #    metrics      = [
-  #      {
-  #        type = "Pods"
-  #        pods = {
-  #          metric = {
-  #            name = "prometheus.googleapis.com|foo|gauge"
-  #          }
-  #          target = {
-  #            average_value = "20"
-  #            type          = "AverageValue"
-  #          }
-  #        }
-  #      }
-  #    ]
-  #  }
-
-  build_job_node_tolerations = {
-    "node.gitlab.ci/dedicated=true" = "NO_SCHEDULE"
+  // all job pods also need to tolerate the taint
+  job_pod_node_tolerations = {
+    "node.gitlab.ci/dedicated=true" = "NoSchedule"
   }
 
+  # select node with local.labels to schedule runner pod
+  node_selector = local.labels
+  # select node with local.labels to schedule job pods
+  job_pod_node_selectors = local.labels
+
   depends_on = [google_container_node_pool.gitlab_runner_pool]
-  cache      = {}
 }

@@ -316,22 +316,22 @@ variable "cache" {
   })
 
   validation {
-    condition     = var.cache.type == "gcs" && var.cache.gcs != null
+    condition     = var.cache != null ? var.cache.type == "gcs" && var.cache.gcs != null : true
     error_message = "To use the gcs cache type you must configure at least gcs.bucket_name"
   }
   validation {
     //TODO: after adding static typing change it accordingly
-    condition     = var.cache.type == "azure" ? length(var.cache.azure) > 0 : true
+    condition     = var.cache != null ? var.cache.type == "azure" ? length(var.cache.azure) > 0 : true : true
     error_message = "To use the azure cache type you must set var.cache.azure. see https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnerscache-section for config details."
   }
   validation {
     //TODO: after adding static typing change it accordingly
-    condition     = var.cache.type == "s3" ? length(var.cache.s3) > 0 : true
+    condition     = var.cache != null ? var.cache.type == "s3" ? length(var.cache.s3) > 0 : true : true
     error_message = "To use the s3 cache type you must set var.cache.s3 see https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnerscache-section for config details."
   }
 
   validation {
-    condition     = var.cache.type == "gcs" || var.cache.type == "s3" || var.cache.type == "local" || var.cache.type == "azure" ? true : false
+    condition     = var.cache != null ? var.cache.type == "gcs" || var.cache.type == "s3" || var.cache.type == "local" || var.cache.type == "azure" ? true : false : true
     error_message = "Cache type must be one of 's3', 'gcs', 'azure', or 'local'."
   }
   default = null

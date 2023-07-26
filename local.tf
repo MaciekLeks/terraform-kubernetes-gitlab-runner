@@ -1,10 +1,10 @@
 module "affinity_transformer" {
-  source = "git::https://github.com/MaciekLeks/case-style-transformer.git?ref=0.1.1"
+  source = "git::https://github.com/MaciekLeks/case-style-transformer.git?ref=0.1.2"
   input  = var.affinity
 }
 
 module "hpa" {
-  source = "git::https://github.com/MaciekLeks/case-style-transformer.git?ref=0.1.1"
+  source = "git::https://github.com/MaciekLeks/case-style-transformer.git?ref=0.1.2"
   input  = var.hpa
 }
 
