@@ -31,7 +31,7 @@ jobs:
     - name: Run a Terraform fmt -check
       run: terraform fmt -check
 
-    - uses: terraform-linters/setup-tflint@v1
+    - uses: terraform-linters/setup-tflint@v3
       name: Setup TFLint
 
     - name: Run TFLint
