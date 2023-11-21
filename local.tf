@@ -3,6 +3,11 @@ module "affinity_transformer" {
   input  = var.affinity
 }
 
+module "topology_spread_constraints" {
+  source = "git::https://github.com/MaciekLeks/case-style-transformer.git?ref=0.1.2"
+  input  = var.topology_spread_constraints
+}
+
 module "hpa" {
   source = "git::https://github.com/MaciekLeks/case-style-transformer.git?ref=0.1.2"
   input  = var.hpa

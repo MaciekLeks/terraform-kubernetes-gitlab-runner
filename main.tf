@@ -20,6 +20,7 @@ resource "helm_release" "gitlab_runner" {
       unregisterRunners             = var.unregister_runners
       terminationGracePeriodSeconds = var.termination_grace_period_seconds
       checkInterval                 = var.check_interval
+      shutdownTimeout               = var.shutdown_timeout
       logLevel                      = var.log_level
 
       rbac = local.rbac
@@ -54,7 +55,8 @@ resource "helm_release" "gitlab_runner" {
 
 
       //affinity = local.affinity
-      affinity = module.affinity_transformer.output
+      affinity                  = module.affinity_transformer.output
+      topologySpreadConstraints = module.topology_spread_constraints
 
       nodeSelector = var.node_selector
       tolerations  = var.tolerations

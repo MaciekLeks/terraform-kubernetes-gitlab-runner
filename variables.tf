@@ -422,6 +422,12 @@ variable "check_interval" {
   default     = 30
 }
 
+variable "shutdown_timeout" {
+  description = "Number of seconds until the forceful shutdown operation times out and exits the process. The default value is 30. If set to 0 or lower, the default value is used."
+  type        = number
+  default     = 0
+}
+
 variable "log_level" {
   description = "Configure GitLab Runner's logging level. Available values are: debug, info, warn, error, fatal, panic."
   type        = string
@@ -702,6 +708,24 @@ variable "affinity" {
       })))
     }), {})
   })
+}
+
+variable "topology_spread_constraints" {
+  description = "The default value is 30. If set to 0 or lower, the default value is used."
+  default     = []
+  type = list(object({
+    max_skew : number
+    topology_key : string
+    when_unsatisfiable : string
+    label_selector : object({
+      match_labels : optional(map(string), {})
+      match_expressions : optional(list(object({
+        key : string
+        operator : string
+        values : list(string)
+      })), [])
+    })
+  }))
 }
 
 //TODO: no HCL support for this variable. See: https://github.com/hashicorp/terraform/issues/28328
