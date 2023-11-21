@@ -711,7 +711,7 @@ variable "affinity" {
 }
 
 variable "topology_spread_constraints" {
-  description = "The default value is 30. If set to 0 or lower, the default value is used."
+  description = "TopologySpreadConstraints for pod assignment."
   default     = []
   type = list(object({
     max_skew : number
