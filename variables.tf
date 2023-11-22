@@ -713,7 +713,7 @@ variable "affinity" {
 
 variable "topology_spread_constraints" {
   description = "TopologySpreadConstraints for pod assignment."
-  default     = []
+  default     = null
   type = list(object({
     max_skew : number
     topology_key : string
