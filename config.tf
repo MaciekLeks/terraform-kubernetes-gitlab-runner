@@ -108,6 +108,7 @@ locals {
         name = "${name}"
         mount_path = "${config.mount_path}"
         medium = "${config.medium}"
+        size_limit = "${config.size_limit}"
     %{~endfor~}
     %{~if lookup(var.build_job_secret_volumes, "name", null) != null~}
       [[runners.kubernetes.volumes.secret]]

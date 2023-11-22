@@ -155,6 +155,7 @@ variable "build_job_empty_dirs" {
   type = map(object({
     mount_path : string
     medium : string
+    size_limit : optional(string, null)
   }))
 }
 
