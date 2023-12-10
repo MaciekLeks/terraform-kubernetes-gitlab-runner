@@ -55,8 +55,8 @@ resource "helm_release" "gitlab_runner" {
 
 
       //affinity = local.affinity
-      affinity                  = module.affinity_transformer.output
-      topologySpreadConstraints = module.topology_spread_constraints
+      affinity = module.affinity_transformer.output
+      #topologySpreadConstraints = module.topology_spread_constraints - commented due to helm issue
       #topologySpreadConstraints = {} #test if helm works with object or array of objects
 
       nodeSelector = var.node_selector
