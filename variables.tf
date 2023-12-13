@@ -449,6 +449,18 @@ variable "shell" {
   }
 }
 
+variable "unhealthy_requests_limit" {
+  type        = number
+  default     = 30
+  description = "The number of unhealthy responses to new job requests after which a runner worker will be disabled."
+}
+
+variable "unhealthy_interval" {
+  type        = string
+  description = "Duration that a runner worker is disabled for after it exceeds the unhealthy requests limit. Supports syntax like ‘3600s’, ‘1h30min’ etc."
+  default     = "120s"
+}
+
 variable "output_limit" {
   description = "Maximum build log size in kilobytes. Default is 4096 (4MB)."
   default     = null
