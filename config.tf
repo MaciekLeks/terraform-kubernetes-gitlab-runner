@@ -7,7 +7,6 @@ locals {
   output_limit = ${var.output_limit}
   unhealthy_requests_limit = ${var.unhealthy_requests_limit}
   unhealthy_interval = "${var.unhealthy_interval}"
-
   environment = ${jsonencode(local.job_envs)}
 %{if var.cache.type == "local"~}
   cache_dir = "${var.local_cache_dir}"

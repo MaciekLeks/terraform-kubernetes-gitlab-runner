@@ -49,7 +49,8 @@ locals {
   // cond ? v1: v2 must be of the same type, to workaround this we use list: ["x", true][cond ? 0:1]
   metrics = {
     for k, v in var.metrics :
-    join("", [for i, kv in split("_", k) : i == 0 ? kv : title(kv)]) => [local.metrics_service_monitor, v][k == "service_monitor" ? 0 : 1]
+    join("", [for i, kv in split("_", k) : i == 0 ? kv : title(kv)]) =>
+    [local.metrics_service_monitor, v][k == "service_monitor" ? 0 : 1]
   }
 
   rbac_pod_security_policy = {
@@ -87,8 +88,8 @@ locals {
     }
   ]
 
-  cache_gcs = {
+  cache_gcs = var.cache != null ? {
     for k, v in var.cache.gcs : join("", [for i, kv in split("_", k) : title(kv)]) => v if v != null
-  }
+  } : null
 }
 
