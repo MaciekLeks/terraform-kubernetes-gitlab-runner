@@ -93,7 +93,7 @@ locals {
         read_only = true
         host_path = "/var/run/docker.sock"
     %{~endif~}
-    %{~if var.cache.type == "local"~}
+    %{~if var.cache != null && var.cache.type == "local"~}
       [[runners.kubernetes.volumes.host_path]]
         name = "cache"
         mount_path = "${var.local_cache_dir}"
