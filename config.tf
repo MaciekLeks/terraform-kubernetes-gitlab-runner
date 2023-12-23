@@ -8,6 +8,7 @@ locals {
   unhealthy_requests_limit = ${var.unhealthy_requests_limit}
   unhealthy_interval = "${var.unhealthy_interval}"
   environment = ${jsonencode(local.job_envs)}
+%{if var.cache != null~}
 %{if var.cache.type == "local"~}
   cache_dir = "${var.local_cache_dir}"
 %{~else~}
@@ -27,6 +28,7 @@ locals {
     %{~for key, value in var.cache.azure~}
       "${key}" = "${value}"
     %{~endfor~}
+%{~endif}
 %{~endif}
   [runners.kubernetes]
     %{~for key, value in var.job_resources~}
