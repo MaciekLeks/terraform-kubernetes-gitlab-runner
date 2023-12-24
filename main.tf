@@ -19,7 +19,7 @@ resource "helm_release" "gitlab_runner" {
       replicas                      = local.replicas
       unregisterRunners             = var.unregister_runners
       terminationGracePeriodSeconds = var.termination_grace_period_seconds
-      shutdownTimeout               = var.shutdown_timeout
+      shutdown_timeout              = var.shutdown_timeout
       checkInterval                 = var.check_interval
       logLevel                      = var.log_level
 
