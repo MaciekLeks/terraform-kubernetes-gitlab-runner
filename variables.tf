@@ -821,3 +821,11 @@ variable "poll" {
   })
   default = {}
 }
+
+variable "health_check" {
+  description = "Health check options for the runner to check it's health. Supports only timeoutSeconds."
+  type = object({
+    timeout_seconds : optional(number, 3) #maps to .Values.probeTimeoutSeconds :/
+  })
+  default = {}
+}

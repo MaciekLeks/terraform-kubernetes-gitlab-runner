@@ -23,6 +23,8 @@ resource "helm_release" "gitlab_runner" {
       checkInterval                 = var.check_interval
       logLevel                      = var.log_level
 
+      probeTimeoutSeconds = var.health_check.timeout_seconds
+
       rbac = local.rbac
 
       metrics = local.metrics
