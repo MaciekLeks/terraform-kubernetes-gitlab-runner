@@ -481,8 +481,8 @@ variable "envs" {
 variable "job_identity" {
   description = "Default service account job pods use to talk to Kubernetes API."
   type = object({
-    service_account                   = optional(string)
-    service_account_overwrite_allowed = optional(string)
+    service_account                   = optional(string, "")
+    service_account_overwrite_allowed = optional(string, "")
   })
   default = {}
 }
