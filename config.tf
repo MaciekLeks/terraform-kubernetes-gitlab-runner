@@ -60,9 +60,6 @@ locals {
     poll_timeout = ${var.poll.timeout}
     %{~endif~}
 
-    service_account = ${var.job_identity.service_account}
-    service_account_overwrite_allowed=${var.job_identity.service_account_overwrite_allowed}
-
     [runners.kubernetes.affinity]
       ${var.job_affinity}
     [runners.kubernetes.node_selector]
