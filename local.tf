@@ -1,16 +1,22 @@
 module "affinity_transformer" {
-  source = "git::https://github.com/MaciekLeks/case-style-transformer.git?ref=0.1.2"
+  source = "git::https://github.com/MaciekLeks/case-style-transformer.git?ref=0.2.0"
   input  = var.affinity
 }
 
 module "topology_spread_constraints" {
-  source = "git::https://github.com/MaciekLeks/case-style-transformer.git?ref=0.1.2"
+  source = "git::https://github.com/MaciekLeks/case-style-transformer.git?ref=0.2.0"
   input  = var.topology_spread_constraints
 }
 
 module "hpa" {
-  source = "git::https://github.com/MaciekLeks/case-style-transformer.git?ref=0.1.2"
+  source = "git::https://github.com/MaciekLeks/case-style-transformer.git?ref=0.2.0"
   input  = var.hpa
+}
+
+module "resources" {
+  source = "git::https://github.com/MaciekLeks/case-style-transformer.git?ref=0.2.0"
+  input  = var.resources
+  type   = "kebab-case"
 }
 
 locals {
@@ -19,7 +25,6 @@ locals {
   chart_name   = "gitlab-runner"
   runner_token = var.runner_registration_token == null ? var.runner_token : null
   replicas     = var.runner_token != null ? 1 : var.replicas
-
 
   runner_envs = [
     for env in var.envs : {

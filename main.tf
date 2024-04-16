@@ -53,7 +53,7 @@ resource "helm_release" "gitlab_runner" {
 
       securityContext    = local.security_context
       podSecurityContext = local.pod_security_context
-      resources          = var.resources
+      resources          = module.resources.output
 
 
       //affinity = local.affinity

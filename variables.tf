@@ -388,6 +388,10 @@ variable "job_resources" {
     memory_limit_overwrite_max_allowed : optional(string)
     memory_request : optional(string)
     memory_request_overwrite_max_allowed : optional(string)
+    ephemeral_storage_limit : optional(string)
+    ephemeral_storage_limit_overwrite_max_allowed : optional(string)
+    ephemeral_storage_request : optional(string)
+    ephemeral_storage_request_overwrite_max_allowed : optional(string)
 
     //helper containers
     helper_cpu_limit : optional(string)
@@ -398,7 +402,12 @@ variable "job_resources" {
     helper_memory_limit_overwrite_max_allowed : optional(string)
     helper_memory_request : optional(string)
     helper_memory_request_overwrite_max_allowed : optional(string)
+    helper_ephemeral_storage_limit : optional(string)
+    helper_ephemeral_storage_limit_overwrite_max_allowed : optional(string)
+    helper_ephemeral_storage_request : optional(string)
+    helper_ephemeral_storage_request_overwrite_max_allowed : optional(string)
 
+    // service containers
     service_cpu_limit : optional(string)
     service_cpu_limit_overwrite_max_allowed : optional(string)
     service_cpu_request : optional(string)
@@ -407,6 +416,10 @@ variable "job_resources" {
     service_memory_limit_overwrite_max_allowed : optional(string)
     service_memory_request : optional(string)
     service_memory_request_overwrite_max_allowed : optional(string)
+    service_ephemeral_storage_limit : optional(string)
+    service_ephemeral_storage_limit_overwrite_max_allowed : optional(string)
+    service_ephemeral_storage_request : optional(string)
+    service_ephemeral_storage_request_overwrite_max_allowed : optional(string)
   })
   default = {}
 }
@@ -578,12 +591,14 @@ variable "resources" {
   default     = null
   type = object({
     requests = optional(object({
-      cpu    = optional(string)
-      memory = optional(string)
+      cpu               = optional(string)
+      memory            = optional(string)
+      ephemeral_storage = optional(string)
     })), #TODO: null is ok?
     limits = optional(object({
-      cpu    = optional(string)
-      memory = optional(string)
+      cpu               = optional(string)
+      memory            = optional(string)
+      ephemeral_storage = optional(string)
     })) #TODO: null ia ok?
   })
 }
