@@ -540,7 +540,7 @@ variable "service" {
 variable "rbac" {
   description = "RBAC support."
   type = object({
-    create : optional(bool, false) #create k8s SA and apply RBAC roles
+    //create : optional(bool, false) #create k8s SA and apply RBAC roles #depreciated
     //resources : optional(list(string), ["pods", "pods/exec", "pods/attach", "secrets", "configmaps"])
     //verbs : optional(list(string), ["get", "list", "watch", "create", "patch", "delete"])
     rules : optional(list(object({
@@ -550,14 +550,24 @@ variable "rbac" {
     })), [])
 
     cluster_wide_access : optional(bool, false)
-    service_account_name : optional(string, "default")
-    service_account_annotations : optional(map(string), {})
+    #service_account_name : optional(string, "default") #depreciated 
+    #service_account_annotations : optional(map(string), {}) #depreciated
     pod_security_policy : optional(object({
       enabled : optional(bool, false)
       resource_names : optional(list(string), [])
     }), { enabled : false })
   })
   default = {}
+}
+
+variable "service_account" {
+  description = "The name of the k8s service account to create (since 17.x.x)"
+  type = object({
+    create             = optional(bool, false)
+    name               = optional(string, "")
+    annotations        = optional(map(string), {})
+    image_pull_secrets = optional(list(string), [])
+  })
 }
 
 variable "security_context" {
@@ -844,3 +854,4 @@ variable "health_check" {
   })
   default = {}
 }
+

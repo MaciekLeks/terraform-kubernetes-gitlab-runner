@@ -25,7 +25,8 @@ resource "helm_release" "gitlab_runner" {
 
       probeTimeoutSeconds = var.health_check.timeout_seconds
 
-      rbac = local.rbac
+      rbac           = local.rbac
+      serviceAccount = local.service_account
 
       metrics = local.metrics
       service = local.service

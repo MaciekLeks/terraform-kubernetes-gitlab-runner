@@ -77,6 +77,11 @@ locals {
     [local.rbac_pod_security_policy, local.rbac_rules, v][k == "pod_security_policy" ? 0 : k == "rules" ? 1 : 2]
   }
 
+  service_account = {
+    for k, v in var.service_account :
+    join("", [for i, kv in split("_", k) : i == 0 ? kv : title(kv)]) => v
+  }
+
   security_context = {
     for k, v in var.security_context :
     join("", [for i, kv in split("_", k) : i == 0 ? kv : title(kv)]) => v
