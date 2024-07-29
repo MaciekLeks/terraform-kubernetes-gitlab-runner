@@ -39,9 +39,8 @@ resource "helm_release" "gitlab_runner" {
         locked      = var.runner_locked
         config      = local.config
 
-        cache = {
-          secretName = var.cache != null ? var.cache.secret_name : null
-        }
+        cache = var.cache != null ? var.cache.secret_name ? { secretName = var.cache.secret_name } : {} : {}
+
       }
 
       #      rbac = {
