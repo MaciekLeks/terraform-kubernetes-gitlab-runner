@@ -1,3 +1,7 @@
+# Disclaimer: Project No Longer Maintained
+
+This project is no longer actively developed or maintained. We recommend switching to the new project ([lazy-gitlab-runner-k8s-tf](https://github.com/MaciekLeks/lazy-gitlab-runner-k8s-tf), which includes improvements and new features:
+
 # History
 
 terraform-kubernetes-gitlab-runner is originated
